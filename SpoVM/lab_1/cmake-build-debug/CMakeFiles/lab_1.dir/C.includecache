@@ -11,4 +11,10 @@ curses.h
 -
 unistd.h
 -
+stdlib.h
+-
+wait.h
+-
+time.h
+-
 
