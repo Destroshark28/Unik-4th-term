@@ -6,15 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/ilyshka/Desktop/Unik/SpoVM/lab_1/main.c
+/home/ilyshka/Desktop/Unik/SpoVM/lab_3/main.cpp
+sys/ipc.h
+-
+sys/sem.h
+-
+sys/shm.h
+-
+sys/wait.h
+-
 unistd.h
 -
-stdlib.h
+cstring
 -
-wait.h
+string.h
 -
-sys/mman.h
+cstdlib
 -
-stdio.h
+cstdio
+-
+iostream
+-
+limits
 -
 

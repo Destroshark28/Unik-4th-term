@@ -6,15 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/home/ilyshka/Desktop/Unik/SpoVM/lab_1/main.c
+/home/ilyshka/Desktop/Unik/SpoVM/lab_2/Parent.cpp
+csignal
+-
+cstring
+-
+cstdlib
+-
+string
+-
 unistd.h
 -
-stdlib.h
+sys/types.h
 -
-wait.h
+sys/wait.h
 -
-sys/mman.h
+iostream
 -
-stdio.h
+cstdio
+-
+list
 -
 

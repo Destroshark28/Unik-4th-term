@@ -1,0 +1,4 @@
+/home/ilyshka/Desktop/Unik/SpoVM/lab_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ilyshka/Desktop/Unik/SpoVM/lab_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ilyshka/Desktop/Unik/SpoVM/lab_2/cmake-build-debug/CMakeFiles/lab_2.dir
+/home/ilyshka/Desktop/Unik/SpoVM/lab_2/cmake-build-debug/CMakeFiles/lab_2_child.dir

@@ -1,58 +1,48 @@
-#include <curses.h>
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <wait.h>
+#include <sys/mman.h>
+#include <stdio.h>
+
 
 int main(int argc, char **argv) {
-    int array[10];
+    char *array = mmap(NULL, sizeof(char) * 10, PROT_READ | PROT_WRITE,
+                       MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
-    initscr();
+    //  initscr();
 
     pid_t pid = fork();
     switch (pid) {
         case -1: {
-            printw("Error while creating child process\n");
-            refresh();
-            getch();
             exit(EXIT_FAILURE);
         }
         case 0: {
-            WINDOW *subWindow = newwin(10, 30, 5, 20);
-            box(subWindow, 0, 0);
-            mvwprintw(subWindow, 1, 1, "Child:");
-            wrefresh(subWindow);
             for (int i = 0; i < 10; ++i) {
-                array[i] = i;
+                array[i] = '0' + i;
             }
-            for (int i = 0; i < 10; ++i) {
-                mvwprintw(subWindow, 2, i + 1, "%d", array[i]);
-                wrefresh(subWindow);
-            }
+            execl("echo", "echo", array, NULL);
             sleep(2);
-            delwin(subWindow);
             break;
         }
         default: {
             int childStatus;
             waitpid(pid, &childStatus, 0);
             if (WIFEXITED(childStatus)) {
-                printw("Exited, status = %d\n", WEXITSTATUS(childStatus));
+                printf("Exited, status = %d\n", WEXITSTATUS(childStatus));
             } else if (WIFSIGNALED(childStatus)) {
-                printw("Killed by signal %d\n", WTERMSIG(childStatus));
+                printf("Killed by signal %d\n", WTERMSIG(childStatus));
             } else if (WIFSTOPPED(childStatus)) {
-                printw("Stopped by signal %d\n", WSTOPSIG(childStatus));
+                printf("Stopped by signal %d\n", WSTOPSIG(childStatus));
             }
 
-            printw("Main: \n");
+            printf("Main: \n");
             for (int i = 0; i < 10; ++i) {
-                printw("%d", array[i]);
+                printf("%c", array[i]);
 
             }
-            refresh();
-            getch();
             break;
         }
     }
-    endwin();
     return 0;
 }

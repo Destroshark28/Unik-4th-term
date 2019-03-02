@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/lab_2_child.dir/Child.cpp.o  -o lab_2_child 
