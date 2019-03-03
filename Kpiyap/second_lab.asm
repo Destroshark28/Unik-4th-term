@@ -32,80 +32,68 @@ ends
 
 .code
 start:
-; set segment registers:
     mov ax, @data
     mov ds, ax
     mov es, ax
 
-    lea dx,firstBaseInput    ;"Input first base"
+    lea dx,firstBaseInput   
     call output
-
     lea dx,firstBase
     call input
-
     lea dx,nextString  
-    call output
-
-
-    lea dx,secondBaseInput         ;"Input second base"
+    call output   
+    
+    lea dx,secondBaseInput         
     call output 
-
     lea dx,secondBase
-    call input 
-     
+    call input
     lea dx,nextString  
     call output
          
    
     lea dx,inputNumber
     call output
-    
     lea dx,number
     call input 
     
-    call Base1ToInt    
-    
-    call Base2ToInt
-
+    call firstBaseToInt    
+    call secondBaseToInt
     call transferNumToTen
-    
     call transferNumToBase2  
     
     lea dx,nextString  
     call output
-    
     lea dx,outputResult
     call output
-   
     lea dx,result
     call output
     
   exit:
-    mov ax, 4ch ; exit to operating system.
+    mov ax, 4ch
     int 21h    
 ends    
 
-    output PROC
+output proc
     mov ah,9h
     int 21h
     ret
-    output ENDP 
+output endp 
     
-    input PROC
+input proc
     mov ah,0Ah
     int 21h
     ret
-    input ENDP
+input endp
        
        
-    Base1ToInt proc  ;FromSystem  
-        xor ax,ax
-        xor bx,bx
-        xor cx,cx  
-        xor di,di
-        mov cl,lenghtFirstBase  
-        mov si,cx
-        mov cl,10 
+firstBaseToInt proc    
+    xor ax,ax
+    xor bx,bx
+    xor cx,cx  
+    xor di,di
+    mov cl,lenghtFirstBase  
+    mov si,cx
+    mov cl,10 
             
         l1:
             mov bl,stringFirstBase[di]
@@ -118,20 +106,21 @@ ends
             inc di
             cmp di,si
             jne l1        
-            mov es,ax     ;first base to es
+            mov es,ax     
             ret
              
-        error1: 
+       error1: 
          lea dx,nextString  
          call output
          
          lea dx,errorMsg
          call output
          jmp exit
-         ret                    
-    Base1ToInt endp  
+         ret  
+                           
+firstBaseToInt endp  
     
-    Base2ToInt proc
+secondBaseToInt proc
         xor ax,ax
         xor bx,bx
         xor cx,cx  
@@ -151,54 +140,53 @@ ends
             inc di
             cmp di,si
             jne l2        
-            mov bp,ax     ;second base to ds
+            mov bp,ax    
             ret
              
         error2:
             lea dx,nextString  
             call output
-         
             lea dx,errorMsg
             call output
             jmp exit
-            ret                    
-   Base2ToInt endp 
+            ret   
+                             
+secondBaseToInt endp 
     
-   transferNumToTen proc  
-    
-        xor ax,ax
-        xor bx,bx
-        xor cx,cx  
-        xor di,di     
-        mov cl,lenNumber
-        mov si,cx
-        mov cx,es 
-        dec cx
-        mov es,cx
-        inc cx      
+transferNumToTen proc  
+xor ax,ax
+xor bx,bx
+xor cx,cx  
+xor di,di     
+mov cl,lenNumber
+mov si,cx
+mov cx,es 
+dec cx
+mov es,cx
+inc cx      
         
-        l3:
-            mov bl,strNumber[di]
-            sub bl,'0'
-            jb error3
+    l3:
+        mov bl,strNumber[di]
+        sub bl,'0'
+        jb error3
       
-            cmp bl,11h
-            je A   
+        cmp bl,11h
+        je A   
         
-            cmp bl,12h
-            je B  
+        cmp bl,12h
+        je B  
         
-            cmp bl,13h
-            je C
+        cmp bl,13h
+        je C
      
-            cmp bl,14h
-            je D
+        cmp bl,14h
+        je D
  
-            cmp bl,15h
-            je E
+        cmp bl,15h
+        je E
   
-            cmp bl,16h
-            je F
+        cmp bl,16h
+        je F
          
         K:
             mov dx,es
@@ -210,7 +198,7 @@ ends
             inc di
             cmp di,si
             jne l3        
-            mov es,ax     ;second base to ds
+            mov es,ax    
             ret 
             
         A:
@@ -232,7 +220,7 @@ ends
             mov bl,0Fh
             jmp K
               
-        error3:
+    error3:
             lea dx,nextString  
             call output
          
@@ -241,24 +229,21 @@ ends
             jmp exit
             ret 
     
-    transferNumToTen endp
+transferNumToTen endp
      
-    transferNumToBase2 proc  
-    
-        xor ax,ax
-        xor bx,bx
-        xor cx,cx 
-        xor di,di
+transferNumToBase2 proc  
+xor ax,ax
+xor bx,bx
+xor cx,cx 
+xor di,di
+mov di,offset result+15  
+mov ax,es         
+mov cx,bp   
 
-        ;xor di,di
-        mov di,offset result+15  
-
-        mov ax,es         
-        mov cx,bp
-        l4:
+    l4:
         xor dx,dx
         mov si,offset table
-        div cx      ;ostatok v dx
+        div cx    
         add si,dx
         mov dl,[si]
         mov [di],dl 
@@ -267,12 +252,13 @@ ends
         cmp ax,0   
         jne l4     
         mov dx,di
-        ret     
-        error4:
+        ret    
+         
+    error4:
         lea dx,errorMsg
         call output  
         jmp exit
         ret   
-    transferNumToBase2 endp     
+transferNumToBase2 endp     
 
 end start
