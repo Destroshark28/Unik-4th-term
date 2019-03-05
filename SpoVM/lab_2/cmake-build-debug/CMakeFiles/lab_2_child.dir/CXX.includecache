@@ -9,22 +9,10 @@
 /home/ilyshka/Desktop/Unik/SpoVM/lab_2/Child.cpp
 iostream
 -
-cstdio
--
-csignal
--
-cstring
--
-cstdlib
--
-string
--
 unistd.h
 -
-sys/types.h
+signal.h
 -
-sys/wait.h
--
-sstream
+cstring
 -
 

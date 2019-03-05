@@ -1,41 +1,21 @@
 #include <iostream>
-#include <cstdio>
-#include <csignal>
-#include <cstring>
-#include <cstdlib>
-#include <string>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sstream>
+#include <signal.h>
+#include <cstring>
 
-namespace patch {
-    template<typename T>
-    std::string to_string(const T &n) {
-        std::ostringstream stm;
-        stm << n;
-        return stm.str();
-    }
+
+void print(int sig, siginfo_t *siginfo, void *context) {
+    std::cout << "I'm CHILDDDD! My pid is " << std::to_string(getpid()) << std::endl;
+    kill(getppid(), SIGUSR2);
 }
 
-using namespace std;
-
 int main() {
-    int receiver = 0;
+    struct sigaction act;
+    memset(&act, '\0', sizeof(act));
 
-    string message = "I'm CHILDDDD! My pid is ";
-    string pidStr = patch::to_string((int) getpid());
-    message += pidStr;
+    act.sa_sigaction = &print;
+    act.sa_flags = SA_SIGINFO;
+    sigaction(SIGUSR1, &act, nullptr);
 
-    sigset_t set;
-    sigemptyset(&set);
-    sigaddset(&set, SIGUSR1);
-    sigaddset(&set, SIGKILL);
-    sigprocmask(SIG_BLOCK, &set, nullptr);
-
-    while (true) {
-        sigwait(&set, &receiver);
-        cout << message.c_str() << endl;;
-        kill(getppid(), SIGUSR2);
-    }
+    while (true);
 }

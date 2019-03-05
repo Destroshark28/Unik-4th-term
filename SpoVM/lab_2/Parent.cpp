@@ -14,11 +14,9 @@ const int PROC_DELAY = 1;
 using namespace std;
 
 int main(int argc, char **argv) {
-    int receiver = 0;
-    char symbol;
-    pid_t pid;
     list<pid_t> pidList;
 
+    int receiver = 0;
     sigset_t waitSet;
     sigemptyset(&waitSet);
     sigaddset(&waitSet, SIGUSR2);
@@ -27,21 +25,23 @@ int main(int argc, char **argv) {
     cout << "Hello! This is the parent process." << endl;
     cout << "If you want to create new process, please press '+'" << endl;
     cout << "If you want to delete last process, please press '-'" << endl;
+    cout << "If you want to send signals, please press 'c'" << endl;
     cout << "If you want to quit, please press 'q'" << endl;
 
+    char symbol;
     while (true) {
         cin.get(symbol);
         switch (symbol) {
             case '+':
+                pid_t pid;
                 pid = fork();
                 switch (pid) {
                     case -1:
-                        cout << "Error while creating child process! (fork)" << endl << endl;
+                        cout << "Error while creating child process! (fork)" << endl;
                         exit(EXIT_FAILURE);
                     case 0:
                         execv("/home/ilyshka/Desktop/Unik/SpoVM/lab_2/cmake-build-debug/lab_2_child", argv);
-                        cout << "Error while loading child process (excec)!" << endl << endl;
-                        exit(123);
+                        break;
                     default:
                         pidList.push_back(pid);
                         sleep(PROC_DELAY);
@@ -67,14 +67,14 @@ int main(int argc, char **argv) {
                 }
                 return 0;
 
+            case 'c':
+                for (auto &childPid : pidList) {
+                    kill(childPid, SIGUSR1);
+                    sigwait(&waitSet, &receiver);
+                }
+
             default:
                 continue;
-        }
-        cin.ignore();
-
-        for (auto &childPid: pidList) {
-            kill(childPid, SIGUSR1);
-            sigwait(&waitSet, &receiver);
         }
     }
 }
