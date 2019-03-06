@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/lab_2.dir/Parent.cpp.o  -o lab_2 
+/usr/bin/c++  -pthread -g   CMakeFiles/lab_2.dir/Parent.cpp.o  -o lab_2 

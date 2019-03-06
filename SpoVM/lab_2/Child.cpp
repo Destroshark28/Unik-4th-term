@@ -2,20 +2,29 @@
 #include <unistd.h>
 #include <signal.h>
 #include <cstring>
+#include <bits/sigaction.h>
 
+void print(int sig, siginfo_t *siginfo, void *context);
 
-void print(int sig, siginfo_t *siginfo, void *context) {
-    std::cout << "I'm CHILDDDD! My pid is " << std::to_string(getpid()) << std::endl;
-    kill(getppid(), SIGUSR2);
-}
+void initSigaction();
 
 int main() {
-    struct sigaction act;
-    memset(&act, '\0', sizeof(act));
+    initSigaction();
+    while (true);
+}
 
-    act.sa_sigaction = &print;
+void initSigaction() {
+    struct sigaction act{};
+    act.sa_sigaction = print;
     act.sa_flags = SA_SIGINFO;
     sigaction(SIGUSR1, &act, nullptr);
+}
 
-    while (true);
+void print(int sig, siginfo_t *siginfo, void *context) {
+    std::string str = "I'm CHILD! My pid is " + std::to_string(getpid());
+    for (auto &c:str) {
+        std::cout << c;
+    }
+    std::cout << std::endl;
+    kill(getppid(), SIGUSR2);
 }
