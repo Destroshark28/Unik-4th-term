@@ -17,6 +17,11 @@ int startThread(std::pair<sigset_t &, std::list<pid_t> &> &args);
 void initSigset(sigset_t &set);
 
 int main(int argc, char **argv) {
+    if (argc < 2) {
+        std::cout << "You must specify args" << std::endl;
+        exit(1);
+    }
+
     std::list<pid_t> pidList;
     sigset_t waitSet;
 
