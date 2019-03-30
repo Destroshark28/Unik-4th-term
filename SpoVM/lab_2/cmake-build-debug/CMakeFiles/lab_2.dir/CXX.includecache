@@ -7,26 +7,18 @@
 #IncludeRegexTransform: 
 
 /home/ilyshka/Desktop/Unik/SpoVM/lab_2/Parent.cpp
-csignal
+stdio.h
 -
-cstring
+stdlib.h
 -
-cstdlib
--
-string
+errno.h
 -
 unistd.h
 -
-sys/types.h
+signal.h
 -
 sys/wait.h
 -
-iostream
--
-cstdio
--
-list
--
-pthread.h
+sys/types.h
 -
 

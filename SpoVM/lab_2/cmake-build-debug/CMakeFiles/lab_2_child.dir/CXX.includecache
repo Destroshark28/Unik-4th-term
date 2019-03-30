@@ -9,12 +9,8 @@
 /home/ilyshka/Desktop/Unik/SpoVM/lab_2/Child.cpp
 iostream
 -
-unistd.h
--
-signal.h
--
 cstring
 -
-bits/sigaction.h
+unistd.h
 -
 

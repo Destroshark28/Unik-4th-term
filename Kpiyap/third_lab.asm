@@ -1,5 +1,3 @@
-; multi-segment executable file template.
-
 data segment
     pressAnyKey db "press any key...$" 
     fileName db 'c:\data.txt',0
@@ -13,9 +11,8 @@ stack segment
     dw   128  dup(0)
 ends
 
-;code segment
+
 start:
-; set segment registers:
     mov ax, data
     mov es, ax
     
@@ -33,34 +30,31 @@ start:
         lea di,fileName
         rep movsb  
     
-        mov ds, ax
-
-    ; add your code here  
-
+        mov ds, ax                       
 
         mov dx,offset fileName 
 
-        mov ah,3Dh ;open        
+        mov ah,3Dh     
 
-        mov al,02h ;read write  
+        mov al,02h   
 
         int 21h  
         jc exit             
 
-        mov handleFile,ax   ;bx,ax        
+        mov handleFile,ax        
       
-        mov    cx,0         ;set cursor in 0.0 
+        mov    cx,0         
         mov    dx,0        
         mov    bx,handleFile   
-        mov    ax,4200h  ;set handleFile file   
+        mov    ax,4200h    
         int    21h  
        
-        mov ah ,3fh      ;read in buder
+        mov ah ,3fh     
         lea dx, bufferString
         mov cx,256 
         int 21h   
        
-        mov ah,3Eh   ;close file     
+        mov ah,3Eh      
         int 21h  
        
         mov di, offset bufferString     
@@ -75,16 +69,16 @@ start:
          
         lea si,bufferString
         
-    change:    ;change symbols to ' '
+    change:   
          
         xor bx,bx
         mov bx,[si]
         
-        sub bx,10 ;jmp \n            10 karetka , 13 new string
+        sub bx,10         
         cmp bl,0       
         je end1
         
-        sub bx,3   ;jmp \n      
+        sub bx,3      
         cmp bl,0       
         je end1
 
@@ -100,7 +94,7 @@ start:
         int 21h  
         jc exit             
 
-        mov handleFile,ax   ;bx,ax        
+        mov handleFile,ax      
       
         mov cx,0         
         mov dx,0         
@@ -122,14 +116,13 @@ start:
         int 21h                  
         lea dx, pressAnyKey
         mov ah, 9
-        int 21h        ; output string at ds:dx
+        int 21h       
     
-        ; wait for any key....    
+    
         mov ah, 1
         int 21h
 exit:   
-    mov ax, 4c00h ; exit to operating system.
+    mov ax, 4c00h 
     int 21h    
-;ends
 
-end start ; set entry point and stop the assembler.
+end start
