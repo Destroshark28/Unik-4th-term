@@ -20,7 +20,7 @@ namespace constants {
     const int KILL_SEMAPHORE_INDEX = 2;
     const int CLIENT_ERROR_SEMAPHORE_INDEX = 3;
     const short SET_ARRAY[SEMAPHORE_AMOUNT] = {0};
-    const char INITIAL_PATH[] = "/dev/null";
+    const char INITIAL_PATH[] = "/home/ilyshka/Desktop/Unik/SpoVM/lab_3/main.cpp";
 }
 
 int createSemaphoreSet(key_t key) {
