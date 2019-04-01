@@ -122,7 +122,7 @@ void randomNumber() {
 				fflush(stdin);
 			} while (!scanf("%d", &limit) || limit < 1);
 
-			outp(0x43, 0xB4); 
+			outp(0x43, 0xB6); 
 			outp(0x42, limit % 256);
 			limit /= 256;
 			outp(0x42, limit);
