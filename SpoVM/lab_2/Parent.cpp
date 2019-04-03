@@ -10,6 +10,12 @@
 #include <list>
 #include <pthread.h>
 
+//все управление на чайлдах
+//без масок сигналов
+//нельзя юзать Usr сигналы
+//релизы семафоров на child
+//не блокирующий вввод
+
 void *sendSignals(void *arg);
 
 int startThread(std::pair<sigset_t &, std::list<pid_t> &> &args);
