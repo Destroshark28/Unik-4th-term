@@ -111,7 +111,6 @@ int main() {
             while (true) {
                 cout << "Server - enter the string" << endl;
                 getline(cin, stringBuffer);
-
                 strcpy((char *) shMemoryAddress, stringBuffer.c_str());
                 stringBuffer.clear();
 
