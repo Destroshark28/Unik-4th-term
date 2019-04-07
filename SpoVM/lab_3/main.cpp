@@ -20,6 +20,8 @@ namespace constants {
     const char INITIAL_PATH[] = "/home/ilyshka/Desktop/Unik/SpoVM/lab_3/main.cpp";
 }
 
+using namespace std;
+
 int createSemaphoreSet(key_t key) {
     int check = 0;
     int id = semget(key, constants::SEMAPHORE_AMOUNT, IPC_CREAT | SHM_R | SHM_W);
@@ -34,57 +36,64 @@ void deleteSemaphoreSet(int semaphoreId) {
     semctl(semaphoreId, 0, IPC_RMID, NULL);
 }
 
-using namespace std;
+void *getShMemory(key_t shMemoryId) {
+    void *shMemoryAddress = shmat(shMemoryId, nullptr, 0);
+    if (shMemoryAddress == nullptr) {
+        cerr << "Error: " << strerror(errno) << endl;
+        exit(EXIT_FAILURE);
+    }
+    return shMemoryAddress;
+}
 
-int main() {
-    pid_t pid;
-    int clientStatus;
-    int semaphoreId, shMemoryId;
-    key_t semaphoreKey, shMemoryKey;
-    void *shMemoryAddress;
-    struct sembuf semaphoreSet{};
-    struct shmid_ds shMemoryStruct{};
-
-    semaphoreKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SEMAPHORE);
+key_t getSemaphoreKey() {
+    key_t semaphoreKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SEMAPHORE);
     if (semaphoreKey == -1) {
         cerr << "Error: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
     }
-    shMemoryKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SH_MEMORY);
+    return semaphoreKey;
+}
+
+key_t getShMemoryKey() {
+    key_t shMemoryKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SH_MEMORY);
     if (shMemoryKey == -1) {
         cerr << "Error: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
     }
+    return shMemoryKey;
+}
 
-    semaphoreId = createSemaphoreSet(semaphoreKey);
+int getSemaphoreId(key_t key) {
+    int semaphoreId = createSemaphoreSet(key);
     if (semaphoreId == -1) {
         cerr << "Error: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
     }
-    shMemoryId = shmget(shMemoryKey, 1, IPC_CREAT | SHM_R | SHM_W);
+    return semaphoreId;
+}
+
+int getShMemoryId(key_t key) {
+    int shMemoryId = shmget(key, 1, IPC_CREAT | SHM_R | SHM_W);
     if (shMemoryId == -1) {
         cerr << "Error: " << strerror(errno) << endl;
-        deleteSemaphoreSet(semaphoreId);
         exit(EXIT_FAILURE);
     }
+    return shMemoryId;
+}
 
-    shMemoryAddress = shmat(shMemoryId, nullptr, 0);
-    if (shMemoryAddress == nullptr) {
-        cerr << "Error: " << strerror(errno) << endl;
-        deleteSemaphoreSet(semaphoreId);
-        shmctl(shMemoryId, IPC_RMID, &shMemoryStruct);
-        exit(EXIT_FAILURE);
-    }
+int main() {
+    struct sembuf semaphoreSet{};
+    struct shmid_ds shMemoryStruct{};
 
-    pid = fork();
+    int semaphoreId = getSemaphoreId(getSemaphoreKey());
+    int shMemoryId = getShMemoryId(getShMemoryKey());
+
+    pid_t pid = fork();
     switch (pid) {
         case -1: {
             cerr << "Error: " << strerror(errno) << endl;
-
             deleteSemaphoreSet(semaphoreId);
-            shmdt(shMemoryAddress);
             shmctl(shMemoryId, IPC_RMID, &shMemoryStruct);
-
             exit(EXIT_FAILURE);
         }
         case 0: {
@@ -96,7 +105,7 @@ int main() {
 
                 if (semctl(semaphoreId, constants::KILL_SEMAPHORE_INDEX, GETVAL) == 1) break;
 
-                cout << "Client got: " << (char *) shMemoryAddress << endl;
+                cout << "Client got: " << (char *) getShMemory(shMemoryId) << endl;
 
                 semaphoreSet.sem_num = constants::CLIENT_SEMAPHORE_INDEX;
                 semaphoreSet.sem_op = 1;
@@ -111,7 +120,7 @@ int main() {
             while (true) {
                 cout << "Server - enter the string" << endl;
                 getline(cin, stringBuffer);
-                strcpy((char *) shMemoryAddress, stringBuffer.c_str());
+                strcpy((char *) getShMemory(shMemoryId), stringBuffer.c_str());
                 stringBuffer.clear();
 
                 semaphoreSet.sem_num = constants::SERVER_SEMAPHORE_INDEX;
@@ -137,6 +146,7 @@ int main() {
                     semaphoreSet.sem_flg = SEM_UNDO;
                     semop(semaphoreId, &semaphoreSet, 1);
 
+                    int clientStatus;
                     waitpid(pid, &clientStatus, 0);
                     if (WIFEXITED(clientStatus)) {
                         cout << "Client has exited with status: " << WEXITSTATUS(clientStatus) << endl;
@@ -150,7 +160,7 @@ int main() {
     }
 
     deleteSemaphoreSet(semaphoreId);
-    shmdt(shMemoryAddress);
+    shmdt(getShMemory(shMemoryId));
     shmctl(shMemoryId, IPC_RMID, &shMemoryStruct);
 
     return 0;
