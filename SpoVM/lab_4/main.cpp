@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
                     std::cout << "There are nothing to delete!" << std::endl;
                 } else {
                     pthread_cancel(threadIds.back());
+                    pthread_join(threadIds.back(), nullptr);
                     threadIds.pop_back();
                 }
                 break;
@@ -56,6 +57,7 @@ int main(int argc, char **argv) {
                 if (!threadIds.empty()) {
                     for (auto &id : threadIds) {
                         pthread_cancel(id);
+                        pthread_join(id, nullptr);
                     }
                     threadIds.clear();
                 }
@@ -75,13 +77,18 @@ void *threadRoutine(void *arg) {
     auto mutex = static_cast<pthread_mutex_t *> (arg);
 
     while (true) {
+        pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, nullptr);
         pthread_mutex_lock(mutex);
+
         std::string str = "Thread " + std::to_string(pthread_self());
         for (auto &c:str) {
             std::cout << c;
         }
         std::cout << std::endl;
+
         pthread_mutex_unlock(mutex);
+        pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, nullptr);
+
         sleep(2);
     }
 }
