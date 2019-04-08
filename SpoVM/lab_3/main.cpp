@@ -11,12 +11,10 @@
 #include <limits>
 
 namespace constants {
-    const int KEY_ID_SEMAPHORE = 40;
-    const int KEY_ID_SH_MEMORY = 41;
-    const int SEMAPHORE_AMOUNT = 3;
-    const int SERVER_SEMAPHORE_INDEX = 0;
-    const int CLIENT_SEMAPHORE_INDEX = 1;
-    const int KILL_SEMAPHORE_INDEX = 2;
+    const int KEY_ID_SEMAPHORE = 234;
+    const int KEY_ID_SH_MEMORY = 2345;
+    const int SEMAPHORE_AMOUNT = 1;
+    const int SEMAPHORE_INDEX = 0;
     const char INITIAL_PATH[] = "/home/ilyshka/Desktop/Unik/SpoVM/lab_3/main.cpp";
 }
 
@@ -98,16 +96,16 @@ int main() {
         }
         case 0: {
             while (true) {
-                semaphoreSet.sem_num = constants::SERVER_SEMAPHORE_INDEX;
+                semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
                 semaphoreSet.sem_op = -1;
                 semaphoreSet.sem_flg = SEM_UNDO;
                 semop(semaphoreId, &semaphoreSet, 1);
 
-                if (semctl(semaphoreId, constants::KILL_SEMAPHORE_INDEX, GETVAL) == 1) break;
+                if (semctl(semaphoreId, constants::SEMAPHORE_INDEX, GETVAL) == 1) break;
 
                 cout << "Client got: " << (char *) getShMemory(shMemoryId) << endl;
 
-                semaphoreSet.sem_num = constants::CLIENT_SEMAPHORE_INDEX;
+                semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
                 semaphoreSet.sem_op = 1;
                 semaphoreSet.sem_flg = SEM_UNDO;
                 semop(semaphoreId, &semaphoreSet, 1);
@@ -123,12 +121,12 @@ int main() {
                 strcpy((char *) getShMemory(shMemoryId), stringBuffer.c_str());
                 stringBuffer.clear();
 
-                semaphoreSet.sem_num = constants::SERVER_SEMAPHORE_INDEX;
+                semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
                 semaphoreSet.sem_op = 1;
                 semaphoreSet.sem_flg = SEM_UNDO;
                 semop(semaphoreId, &semaphoreSet, 1);
 
-                semaphoreSet.sem_num = constants::CLIENT_SEMAPHORE_INDEX;
+                semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
                 semaphoreSet.sem_op = -1;
                 semaphoreSet.sem_flg = SEM_UNDO;
                 semop(semaphoreId, &semaphoreSet, 1);
@@ -136,13 +134,8 @@ int main() {
                 cout << "Press '0' to exit the program, or press any other key to continue..." << endl;
 
                 if (cin.get() == '0') {
-                    semaphoreSet.sem_num = constants::KILL_SEMAPHORE_INDEX;
-                    semaphoreSet.sem_op = 1;
-                    semaphoreSet.sem_flg = SEM_UNDO;
-                    semop(semaphoreId, &semaphoreSet, 1);
-
-                    semaphoreSet.sem_num = constants::SERVER_SEMAPHORE_INDEX;
-                    semaphoreSet.sem_op = 1;
+                    semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+                    semaphoreSet.sem_op = 2;
                     semaphoreSet.sem_flg = SEM_UNDO;
                     semop(semaphoreId, &semaphoreSet, 1);
 

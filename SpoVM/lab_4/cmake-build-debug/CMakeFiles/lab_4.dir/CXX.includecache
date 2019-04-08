@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilyshka/Desktop/Unik/SpoVM/lab_4/main.cpp
+csignal
+-
+cstring
+-
+cstdlib
+-
+string
+-
+unistd.h
+-
+sys/types.h
+-
+sys/wait.h
+-
+iostream
+-
+cstdio
+-
+list
+-
+pthread.h
+-
+curses.h
+-
+fcntl.h
+-
+
