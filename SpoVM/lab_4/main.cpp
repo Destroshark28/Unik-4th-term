@@ -11,7 +11,6 @@
 #include <pthread.h>
 #include <curses.h>
 #include <fcntl.h>
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 #pragma clang diagnostic ignored "-Wmissing-noreturn"

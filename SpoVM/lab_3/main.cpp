@@ -44,47 +44,44 @@ void *getShMemory(key_t shMemoryId) {
 }
 
 key_t getSemaphoreKey() {
-    key_t semaphoreKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SEMAPHORE);
-    if (semaphoreKey == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
-        exit(EXIT_FAILURE);
-    }
-    return semaphoreKey;
+    return ftok(constants::INITIAL_PATH, constants::KEY_ID_SEMAPHORE);
 }
 
 key_t getShMemoryKey() {
-    key_t shMemoryKey = ftok(constants::INITIAL_PATH, constants::KEY_ID_SH_MEMORY);
-    if (shMemoryKey == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
-        exit(EXIT_FAILURE);
-    }
-    return shMemoryKey;
+    return ftok(constants::INITIAL_PATH, constants::KEY_ID_SH_MEMORY);
 }
 
-int getSemaphoreId(key_t key) {
-    int semaphoreId = createSemaphoreSet(key);
-    if (semaphoreId == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
-        exit(EXIT_FAILURE);
+int getSemaphoreId() {
+    key_t key = getSemaphoreKey();
+    if (key == -1) {
+        return -1;
     }
-    return semaphoreId;
+    return createSemaphoreSet(key);
 }
 
-int getShMemoryId(key_t key) {
-    int shMemoryId = shmget(key, 1, IPC_CREAT | SHM_R | SHM_W);
-    if (shMemoryId == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
-        exit(EXIT_FAILURE);
+int getShMemoryId() {
+    key_t key = getShMemoryKey();
+    if (key == -1) {
+        return -1;
     }
-    return shMemoryId;
+    return shmget(key, 1, IPC_CREAT | SHM_R | SHM_W);
 }
 
 int main() {
     struct sembuf semaphoreSet{};
     struct shmid_ds shMemoryStruct{};
 
-    int semaphoreId = getSemaphoreId(getSemaphoreKey());
-    int shMemoryId = getShMemoryId(getShMemoryKey());
+    int semaphoreId = getSemaphoreId();
+    if (semaphoreId == -1) {
+        cerr << "Error:  " << strerror(errno) << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    int shMemoryId = getShMemoryId();
+    if (shMemoryId == -1) {
+        cerr << "Error: " << strerror(errno) << endl;
+        exit(EXIT_FAILURE);
+    }
 
     pid_t pid = fork();
     switch (pid) {

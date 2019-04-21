@@ -48,10 +48,10 @@ RM = /snap/clion/69/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_4
+CMAKE_SOURCE_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_5
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_4/cmake-build-debug
+CMAKE_BINARY_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_4/cmake-build-debug/CMakeFiles /home/ilyshka/Desktop/Unik/SpoVM/lab_4/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_4/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lab_4
+# Target rules for targets named lab_5
 
 # Build rule for target.
-lab_4: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab_4
-.PHONY : lab_4
+lab_5: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab_5
+.PHONY : lab_5
 
 # fast build rule for target.
-lab_4/fast:
-	$(MAKE) -f CMakeFiles/lab_4.dir/build.make CMakeFiles/lab_4.dir/build
-.PHONY : lab_4/fast
+lab_5/fast:
+	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/build
+.PHONY : lab_5/fast
 
 main.o: main.cpp.o
 
@@ -129,7 +129,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/lab_4.dir/build.make CMakeFiles/lab_4.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -138,7 +138,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/lab_4.dir/build.make CMakeFiles/lab_4.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -147,7 +147,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/lab_4.dir/build.make CMakeFiles/lab_4.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -157,7 +157,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... lab_4"
+	@echo "... lab_5"
 	@echo "... edit_cache"
 	@echo "... main.o"
 	@echo "... main.i"
