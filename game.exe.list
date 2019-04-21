@@ -1,0 +1,681 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+game.exe -- emu8086 assembler version: 4.05  
+ 
+[ 21/04/2019  --  17:53:40 ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       .model small
+[   2]        :                                       .stack 100h
+[   3]        :                                       .data
+[   4]    0100: FF 44 FE 44 FE 44 FE 44 FE 44 FE 44   platform db 0FFh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h,0FEh,44h
+                FE 44 FE 44 FE 44 FE 44 FE 44 FE 44 
+                FE 44 FE 44 FE 44 FE 44 FE 44 FE 44 
+                                                    
+[   5]    0124: 00 00                                 platformRight   dw ?
+[   6]    0126: 00 00                                 platformLeft    dw ?
+[   7]    0128: FE 66                                 line_title      db 0FEh,66h
+[   8]    012A: 05 00                                 line            dw 0x0005
+[   9]    012C: 0F 0A                                 ball            db 0Fh, 0Ah
+[  10]    012E: 1A 00                                 size_platform   dw 0x001A
+[  11]    0130: A0 00                                 size_line       dw 0x00A0
+[  12]    0132: 50 0F                                 platformLoc     dw 0x0F50
+[  13]    0134: 00 0F                                 ballLoc         dw 0x0F00
+[  14]    0136: 00 8F                                 repeat          dw 0x8F00
+[  15]    0138: F0 0F                                 endLine         dw 0x0FF0
+[  16]    013A: 02                                    byteDivider     db 0x0002
+[  17]    013B: 50 00                                 curX            dw 0x0050h
+[  18]    013D: 17 00                                 curY            dw 0x0017h
+[  19]    013F: FE FF                                 vectorX         dw -2h
+[  20]    0141: FF FF                                 vectorY         dw -1h
+[  21]    0143: 00 00                                 points          dw 0x0000
+[  22]    0145: 50 02                                 max_coints      dw 0x0250
+[  23]    0147: 00 00 00 00 00 00 00 00 00 00         points_str      db 10 dup(?)
+[  24]    0151: 00 00                                 LEN             dw 0
+[  25]    0153: 20 0F                                 score           db ' ',0Fh
+[  26]    0155: 73 0F 63 0F 6F 0F 72 0F 65 0F 3A 0F   db 's',0Fh,'c',0Fh,'o',0Fh,'r',0fh,'e',0Fh,':',0Fh,' ',0Fh ,' ',0h,' ',07h  ,' ',07h
+                20 0F 20 00 20 07 20 07             
+[  27]    0169: 15 00                                 size_score      dw 0x0015h
+[  28]        :                                       
+[  29]    016B: 3C 0F 2D 0F 20 0F 2D 0F 20 0F 73 0F   rules  db '<',0Fh,'-',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'s',0Fh,'t',0Fh ,'e',0Fh ,'p',0Fh ,' ',0Fh ,'l',0Fh ,'e',0Fh ,'f',0Fh ,'t',0Fh ,' ',0Fh
+                74 0F 65 0F 70 0F 20 0F 6C 0F 65 0F 
+                66 0F 74 0F 20 0F                   
+[  30]    0189: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  31]    019D: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  32]    01B1: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  33]    01C5: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  34]    01D9: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  35]    01ED: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  36]    0201: 20 0F 20 0F 20 0F 20 0F 20 0F         db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+[  37]        :                                       
+[  38]    020B: 2D 0F 3E 0F 20 0F 2D 0F 20 0F 73 0F   db '-',0Fh,'>',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'s',0Fh,'t',0Fh ,'e',0Fh ,'p',0Fh ,' ',0Fh ,'r',0Fh ,'i',0Fh ,'g',0Fh ,'h',0Fh ,'t',0Fh,' ',0Fh
+                74 0F 65 0F 70 0F 20 0F 72 0F 69 0F 
+                67 0F 68 0F 74 0F 20 0F             
+[  39]    022B: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  40]    023F: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  41]    0253: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  42]    0267: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  43]    027B: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  44]    028F: 20 0F 20 0F 20 0F 20 0F 20 0F 20 0F   db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+                20 0F 20 0F 20 0F 20 0F             
+[  45]    02A3: 20 0F 20 0F 20 0F 20 0F               db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
+[  46]    02AB: 41 0F 6E 0F 79 0F 20 0F 6B 0F 65 0F   db 'A',0Fh,'n',0Fh,'y',0Fh,' ',0Fh,'k',0Fh,'e',0Fh,'y',0Fh,' ',0Fh,'t',0Fh,'o',0Fh,' ',0Fh,'s',0Fh,'t',0Fh,'a',0Fh,'r',0Fh,'t',0Fh,'!',0Fh
+                79 0F 20 0F 74 0F 6F 0F 20 0F 73 0F 
+                74 0F 61 0F 72 0F 74 0F 21 0F       
+[  47]    02CD: 62 01                                 size_rules dw 0x0162h
+[  48]        :                                       
+[  49]    02CF: 47 0F 61 0F 6D 0F 65 0F 20 00 6F 0F   game_over   db 'G',0Fh,'a',0Fh,'m',0Fh,'e',0Fh,' ',0h,'o',0Fh,'v',0Fh,'e',0Fh,'r',0Fh
+                76 0F 65 0F 72 0F                   
+[  50]    02E1: 57 0F 69 0F 6E 0F                     winner      db 'W',0Fh,'i',0Fh,'n',0Fh
+[  51]    02E7: 00                                    flag        db 0
+[  52]    02E8: 00 8F                                 curSpeed    dw 0x8f00
+[  53]        :                                       
+[  54]        :                                       SPA     equ 20h
+[  55]        :                                       PL      equ 0FEh
+[  56]        :                                       
+[  57]        :                                       LEFT    equ 0x4B00  ;"<-"
+[  58]        :                                       RIGHT   equ 0x4D00  ; "->"
+[  59]        :                                       ENTER   equ 0x1C0D  ; "Enter"
+[  60]        :                                       .code
+[  61]        :                                       
+[  62]    02F0:                                       start:
+[  63]    02F0:                                       main1:
+[  64]    02F0: E8 33 00                              call begin
+[  65]    02F3: E8 54 00                              call cursorHide
+[  66]    02F6: E8 86 00                              call clearScreen
+[  67]    02F9: E8 FC 03                              call drawRules
+[  68]    02FC: E8 60 00                              call drawTitle
+[  69]    02FF: E8 50 00                              call drawScore
+[  70]    0302: E8 9E 03                              call points_show
+[  71]    0305: E8 00 01                              call drawPlatform
+[  72]    0308: E8 92 01                              call drawBall
+[  73]    030B: E8 80 00                              call drawBreaks
+[  74]    030E: E8 35 00                              call go
+[  75]        :                                       
+[  76]    0311:                                       main:
+[  77]    0311: 8B 0E 36 00                           mov cx,[repeat]
+[  78]        :                                       
+[  79]    0315:                                       cycle:
+[  80]    0315: E8 FF 00                              call movePlatform
+[  81]    0318: 49                                    dec cx
+[  82]    0319: 83 F9 00                              cmp cx, 0
+[  83]    031C: 75 F7                                 jne cycle
+[  84]    031E: E8 BA 01                              call moveBall
+[  85]    0321: E8 79 01                              call drawBall
+[  86]    0324: EB EB                                 jmp main
+[  87]        :                                       
+[  88]    0326:                                       logics:
+[  89]    0326:                                       begin:
+[  90]    0326: B8 10 00                              mov ax,@data
+[  91]    0329: 8E D8                                 mov ds, ax
+[  92]    032B: B4 00                                 mov ah,00
+[  93]    032D: B0 03                                 mov al,03
+[  94]    032F: CD 10                                 int 10h
+[  95]        :                                       
+[  96]    0331: 68 00 B8                              push 0B800h
+[  97]    0334: 07                                    pop es
+[  98]    0335: A1 32 00                              mov ax, [platformLoc]
+[  99]    0338: A3 26 00                              mov [platformLeft], ax
+[ 100]    033B: A3 24 00                              mov [platformRight], ax
+[ 101]    033E: A1 2E 00                              mov ax, [size_platform]
+[ 102]    0341: 01 06 24 00                           add [platformRight],ax
+[ 103]    0345: C3                                    ret
+[ 104]        :                                       
+[ 105]    0346:                                       go:
+[ 106]    0346: B4 00                                 mov ah, 00h
+[ 107]    0348: CD 16                                 int 16h
+[ 108]        :                                       
+[ 109]    034A:                                       cursorHide:
+[ 110]    034A: B4 01                                 mov ah,1
+[ 111]    034C: B9 00 20                              mov cx, 0x2000
+[ 112]    034F: CD 10                                 int 10h
+[ 113]    0351: C3                                    ret
+[ 114]        :                                       
+[ 115]    0352:                                       drawScore:
+[ 116]    0352: BF 00 00                              mov di, 00h
+[ 117]    0355: BE 53 00                              lea si, score
+[ 118]    0358: 8B 0E 69 00                           mov cx, [size_score]
+[ 119]    035C: F3 A4                                 rep movsb
+[ 120]    035E: C3                                    ret
+[ 121]        :                                       
+[ 122]    035F:                                       drawTitle:
+[ 123]    035F: 33 C0                                 xor ax, ax
+[ 124]    0361: B8 01 00                              mov ax, 0x0001h
+[ 125]    0364: F7 26 30 00                           mul [size_line]
+[ 126]    0368: 8B F8                                 mov di, ax
+[ 127]    036A: 03 06 30 00                           add ax, size_line
+[ 128]        :                                       
+[ 129]    036E:                                       cycle_:
+[ 130]    036E: 3B F8                                 cmp di, ax
+[ 131]    0370: 75 03 E9 81 02                        je return
+[ 132]    0375: BE 28 00                              mov si, offset line_title
+[ 133]    0378: B9 02 00                              mov cx, 2
+[ 134]    037B: F3 A4                                 rep movsb
+[ 135]    037D: EB EF                                 jmp cycle_
+[ 136]        :                                       
+[ 137]    037F:                                       clearScreen:
+[ 138]    037F: B4 06                                 mov ah, 0x06
+[ 139]    0381: B0 00                                 mov al, 0x00
+[ 140]    0383: B7 07                                 mov bh, 0x07h
+[ 141]    0385: 33 C9                                 xor cx,cx
+[ 142]    0387: B2 80                                 mov dl, 0x80
+[ 143]    0389: B6 25                                 mov dh, 0x25
+[ 144]    038B: CD 10                                 int 0x10
+[ 145]    038D: C3                                    ret
+[ 146]        :                                       
+[ 147]    038E:                                       drawBreaks:
+[ 148]    038E: A1 2A 00                              mov ax, [line]
+[ 149]    0391: F7 26 30 00                           mul [size_line]
+[ 150]    0395: 8B D8                                 mov bx, ax
+[ 151]    0397: 03 06 30 00                           add ax, [size_line]
+[ 152]    039B: B9 32 00                              mov cx, 0x0032
+[ 153]        :                                       
+[ 154]    039E:                                       loopl:
+[ 155]    039E: E8 37 00                              call drawBlock
+[ 156]    03A1: E8 4C 00                              call drawSpace
+[ 157]    03A4: 49                                    dec cx
+[ 158]    03A5: 83 F9 00                              cmp cx, 0
+[ 159]    03A8: 75 03 E9 49 02                        je return
+[ 160]    03AD: 3B D8                                 cmp bx, ax
+[ 161]    03AF: 7D 02                                 jge new_line
+[ 162]    03B1: EB EB                                 jmp loopl
+[ 163]        :                                       
+[ 164]    03B3:                                       new_line:
+[ 165]    03B3: 03 06 30 00                           add ax, [size_line]
+[ 166]    03B7: 83 06 2A 00 01                        add [line],1
+[ 167]    03BC: 50                                    push ax
+[ 168]    03BD: A1 2A 00                              mov ax, [line]
+[ 169]    03C0: F6 36 3A 00                           div [byteDivider]
+[ 170]    03C4: 80 FC 01                              cmp ah, 1
+[ 171]    03C7: 74 06                                 je step
+[ 172]    03C9: 83 C3 08                              add bx, 8
+[ 173]    03CC: 58                                    pop ax
+[ 174]    03CD: EB CF                                 jmp loopl
+[ 175]        :                                       
+[ 176]    03CF:                                       step:
+[ 177]    03CF: 58                                    pop ax
+[ 178]    03D0: 8B D8                                 mov bx, ax
+[ 179]    03D2: 2B 1E 30 00                           sub bx, [size_line]
+[ 180]    03D6: EB C6                                 jmp loopl
+[ 181]        :                                       
+[ 182]    03D8:                                       drawBlock:
+[ 183]    03D8: 51                                    push cx
+[ 184]    03D9: B9 04 00                              mov cx, 0x0004
+[ 185]        :                                       
+[ 186]    03DC:                                       drawBlock2:
+[ 187]    03DC: 26 C6 07 FE                           mov es:[bx], PL
+[ 188]    03E0: 26 C6 47 01 40                        mov es:[bx+1], 040h
+[ 189]    03E5: 83 C3 02                              add bx, 2
+[ 190]    03E8: 49                                    dec cx
+[ 191]    03E9: 83 F9 00                              cmp cx, 0
+[ 192]    03EC: 75 EE                                 jne drawBlock2
+[ 193]    03EE: 59                                    pop cx
+[ 194]    03EF: C3                                    ret
+[ 195]        :                                       
+[ 196]    03F0:                                       drawSpace:
+[ 197]    03F0: 51                                    push cx
+[ 198]    03F1: B9 04 00                              mov cx, 0x0004
+[ 199]    03F4:                                       drawSpace2:
+[ 200]    03F4: 26 C6 07 20                           mov es:[bx], SPA
+[ 201]    03F8: 26 C6 47 01 00                        mov es:[bx+1], 0h
+[ 202]    03FD: 83 C3 02                              add bx, 2
+[ 203]    0400: 49                                    dec cx
+[ 204]    0401: 83 F9 00                              cmp cx, 0
+[ 205]    0404: 75 EE                                 jne drawSpace2
+[ 206]    0406: 59                                    pop cx
+[ 207]    0407: C3                                    ret
+[ 208]        :                                       
+[ 209]    0408:                                       drawPlatform:
+[ 210]    0408: 8B 3E 32 00                           mov di, [platformLoc]
+[ 211]    040C: 8B 0E 2E 00                           mov cx, [size_platform]
+[ 212]    0410: BE 00 00                              mov si, offset platform
+[ 213]    0413: FC                                    cld
+[ 214]    0414: F3 A4                                 rep movsb
+[ 215]    0416: C3                                    ret
+[ 216]        :                                       
+[ 217]    0417:                                       movePlatform:
+[ 218]    0417: B4 01                                 mov ah, 01h
+[ 219]    0419: CD 16                                 int 16h
+[ 220]    041B: 75 01                                 jnz checkKey
+[ 221]    041D: C3                                    ret
+[ 222]        :                                       
+[ 223]    041E:                                       checkKey:
+[ 224]    041E: B4 00                                 mov ah, 00h
+[ 225]    0420: CD 16                                 int 16h
+[ 226]    0422: 3D 00 4D                              cmp ax, RIGHT
+[ 227]    0425: 74 06                                 je  go_right
+[ 228]    0427: 3D 00 4B                              cmp ax, LEFT
+[ 229]    042A: 74 36                                 je  go_left
+[ 230]    042C: C3                                    ret
+[ 231]        :                                       
+[ 232]    042D:                                       go_right:
+[ 233]    042D: 8B 1E 32 00                           mov bx, [platformLoc]
+[ 234]    0431: 03 1E 2E 00                           add bx, [size_platform]
+[ 235]    0435: 3B 1E 38 00                           cmp bx, [endLine]
+[ 236]    0439: 7D DC                                 jge movePlatform
+[ 237]    043B: 26 C6 07 FE                           mov es:[bx],PL
+[ 238]    043F: 26 C6 47 01 44                        mov es:[bx+1], 044h
+[ 239]    0444: 8B 1E 32 00                           mov bx, [platformLoc]
+[ 240]    0448: 26 C6 07 20                           mov es:[bx],SPA
+[ 241]    044C: 26 C6 47 01 00                        mov es:[bx+1],0h
+[ 242]    0451: 83 06 32 00 02                        add [platformLoc],2
+[ 243]    0456: 83 06 24 00 02                        add [platformRight], 2
+[ 244]    045B: 83 06 26 00 02                        add [platformLeft], 2
+[ 245]    0460: EB B5                                 jmp movePlatform
+[ 246]        :                                       
+[ 247]    0462:                                       go_left:
+[ 248]    0462: 81 3E 32 00 00 0F                     cmp [platformLoc], 0F00h
+[ 249]    0468: 7E AD                                 jle movePlatform
+[ 250]    046A: 83 2E 32 00 02                        sub [platformLoc], 2
+[ 251]    046F: 83 2E 24 00 02                        sub [platformRight], 2
+[ 252]    0474: 83 2E 26 00 02                        sub [platformLeft], 2
+[ 253]    0479: 8B 1E 32 00                           mov bx, [platformLoc]
+[ 254]    047D: 03 1E 2E 00                           add bx, [size_platform]
+[ 255]    0481: 26 C6 07 20                           mov es:[bx],SPA
+[ 256]    0485: 26 C6 47 01 00                        mov es:[bx+1],0h
+[ 257]    048A: 8B 1E 32 00                           mov bx, [platformLoc]
+[ 258]    048E: 26 C6 07 FE                           mov es:[bx],PL
+[ 259]    0492: 26 C6 47 01 44                        mov es:[bx+1], 044h
+[ 260]    0497: E9 7D FF                              jmp movePlatform
+[ 261]        :                                       
+[ 262]    049A:                                       moveNull:
+[ 263]    049A: E9 7A FF                              jmp movePlatform
+[ 264]        :                                       
+[ 265]    049D:                                       drawBall:
+[ 266]    049D: 33 DB                                 xor bx, bx
+[ 267]    049F: 8B 1E 34 00                           mov bx, [ballLoc]
+[ 268]    04A3: 33 C0                                 xor ax, ax
+[ 269]    04A5: A1 3D 00                              mov ax, [curY]
+[ 270]    04A8: F7 26 30 00                           mul [size_line]
+[ 271]    04AC: 03 06 3B 00                           add ax, [curX]
+[ 272]    04B0: A3 34 00                              mov [ballLoc], ax
+[ 273]    04B3: 3B C3                                 cmp ax, bx
+[ 274]    04B5: 75 03 E9 3C 01                        je return
+[ 275]    04BA: 8B F8                                 mov di, ax
+[ 276]    04BC: BE 2C 00                              mov si, offset ball
+[ 277]    04BF: B9 02 00                              mov cx, 2
+[ 278]    04C2: FC                                    cld
+[ 279]    04C3: F3 A4                                 rep movsb
+[ 280]    04C5: 26 C6 07 20                           mov es:[bx], SPA
+[ 281]    04C9: 26 C6 47 01 00                        mov es:[bx+1], 0h
+[ 282]    04CE: C3                                    ret
+[ 283]        :                                       
+[ 284]    04CF:                                       changeVectorY:
+[ 285]    04CF: F7 1E 41 00                           neg [vectorY]
+[ 286]    04D3: EB 0D                                 jmp checkBorderX
+[ 287]        :                                       
+[ 288]    04D5:                                       changeVectorX:
+[ 289]    04D5: F7 1E 3F 00                           neg [vectorX]
+[ 290]    04D9: EB 1E                                 jmp next
+[ 291]        :                                       
+[ 292]    04DB:                                       moveBall:
+[ 293]        :                                       
+[ 294]    04DB:                                       checkBorderY:
+[ 295]    04DB: 83 3E 3D 00 02                        cmp [curY], 2
+[ 296]    04E0: 74 ED                                 je changeVectorY
+[ 297]        :                                       
+[ 298]    04E2:                                       checkBorderX:
+[ 299]    04E2: 33 D2                                 xor dx, dx
+[ 300]    04E4: 8B 16 30 00                           mov dx, [size_line]
+[ 301]    04E8: 2B 16 3F 00                           sub dx, [vectorX]
+[ 302]    04EC: 39 16 3B 00                           cmp [curX], dx
+[ 303]    04F0: 7D E3                                 jge  changeVectorX
+[ 304]    04F2: 83 3E 3B 00 00                        cmp [curX], 0
+[ 305]    04F7: 7E DC                                 jle  changeVectorX
+[ 306]        :                                       
+[ 307]    04F9:                                       next:
+[ 308]    04F9: 33 C0                                 xor ax, ax
+[ 309]    04FB: A1 3D 00                              mov ax, [curY]
+[ 310]    04FE: 03 06 41 00                           add ax, [vectorY]
+[ 311]    0502: A3 3D 00                              mov [curY], ax
+[ 312]    0505: 33 DB                                 xor bx, bx
+[ 313]    0507: 8B 1E 3B 00                           mov bx, [curX]
+[ 314]    050B: 03 1E 3F 00                           add bx, [vectorX]
+[ 315]    050F: 83 FB 00                              cmp bx, 0
+[ 316]    0512: 7C 2A                                 jl back1
+[ 317]        :                                       
+[ 318]    0514:                                       next1:
+[ 319]    0514: 89 1E 3B 00                           mov [curX], bx
+[ 320]    0518: F7 26 30 00                           mul [size_line]
+[ 321]    051C: 03 C3                                 add ax, bx
+[ 322]    051E: 8B F8                                 mov di, ax
+[ 323]    0520: 57                                    push di
+[ 324]    0521: 26 8B 05                              mov ax, es:[di]
+[ 325]        :                                       
+[ 326]    0524:                                       next2:
+[ 327]    0524: 5F                                    pop di
+[ 328]    0525: 26 8B 05                              mov ax, es:[di]
+[ 329]    0528: 3C FE                                 cmp al, PL
+[ 330]    052A: 74 20                                 je back_move
+[ 331]    052C: 83 3E 3D 00 19                        cmp [curY], 0x0019
+[ 332]    0531: 75 03 E9 C1 00                        je gameOver
+[ 333]    0536: 3C FE                                 cmp al, 0FEh
+[ 334]    0538: 74 03 E9 EF 00                        jne check_go_awake
+[ 335]    053D: C3                                    ret
+[ 336]        :                                       
+[ 337]    053E:                                       back1:
+[ 338]    053E: F7 1E 3F 00                           neg [vectorX]
+[ 339]    0542: 03 1E 3F 00                           add bx, [vectorX]
+[ 340]    0546: 03 1E 3F 00                           add bx, [vectorX]
+[ 341]    054A: EB C8                                 jmp next1
+[ 342]        :                                       
+[ 343]    054C:                                       back_move:
+[ 344]    054C: E8 71 00                              call checkBrick
+[ 345]    054F: F7 1E 41 00                           neg [vectorY]
+[ 346]    0553: F7 1E 3F 00                           neg [vectorX]
+[ 347]    0557: A1 3D 00                              mov ax, [curY]
+[ 348]    055A: 03 06 41 00                           add ax, [vectorY]
+[ 349]    055E: A3 3D 00                              mov [curY], ax
+[ 350]    0561: A1 3B 00                              mov ax, [curX]
+[ 351]    0564: 03 06 3F 00                           add ax, [vectorX]
+[ 352]    0568: A3 3B 00                              mov [curX], ax
+[ 353]    056B: F7 1E 3F 00                           neg [vectorX]
+[ 354]    056F: E8 01 00                              call checkChangeVector
+[ 355]    0572: C3                                    ret
+[ 356]        :                                       
+[ 357]    0573:                                       checkChangeVector:
+[ 358]    0573: 8B 16 26 00                           mov dx, [platformLeft]
+[ 359]    0577: 2B 16 30 00                           sub dx, [size_line]
+[ 360]    057B: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 361]    057F: 74 33                                 je decVectorX
+[ 362]    0581: 83 C2 02                              add dx, 2
+[ 363]    0584: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 364]    0588: 74 2A                                 je decVectorX
+[ 365]    058A: 83 C2 02                              add dx, 2
+[ 366]    058D: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 367]    0591: 74 21                                 je decVectorX
+[ 368]    0593: 8B 16 24 00                           mov dx, [platformRight]
+[ 369]    0597: 2B 16 30 00                           sub dx, [size_line]
+[ 370]    059B: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 371]    059F: 74 19                                 je incVectorY
+[ 372]    05A1: 83 EA 02                              sub dx, 2
+[ 373]    05A4: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 374]    05A8: 74 10                                 je incVectorY
+[ 375]    05AA: 83 EA 02                              sub dx, 2
+[ 376]    05AD: 3B 16 34 00                           cmp dx, [ballLoc]
+[ 377]    05B1: 74 07                                 je incVectorY
+[ 378]    05B3: C3                                    ret
+[ 379]        :                                       
+[ 380]    05B4:                                       decVectorX:
+[ 381]    05B4: 83 2E 3F 00 02                        sub [vectorX], 2
+[ 382]    05B9: C3                                    ret
+[ 383]        :                                       
+[ 384]    05BA:                                       incVectorY:
+[ 385]    05BA: 83 06 3F 00 02                        add [vectorX], 2
+[ 386]    05BF: C3                                    ret
+[ 387]        :                                       
+[ 388]    05C0:                                       checkBrick:
+[ 389]    05C0: 83 3E 3D 00 18                        cmp [curY],0x0018
+[ 390]    05C5: 74 2F                                 je return
+[ 391]    05C7: 83 3E 3D 00 01                        cmp [curY], 0x0001
+[ 392]    05CC: 74 28                                 je return
+[ 393]    05CE: A1 3D 00                              mov ax, [curY]
+[ 394]    05D1: F7 26 30 00                           mul [size_line]
+[ 395]    05D5: 8B D8                                 mov bx, ax
+[ 396]    05D7: 03 1E 3B 00                           add bx, [curX]
+[ 397]        :                                       
+[ 398]    05DB:                                       loop1:
+[ 399]    05DB: 83 EB 02                              sub bx, 2
+[ 400]    05DE: 3B D8                                 cmp bx, ax
+[ 401]    05E0: 7C 06                                 jl go1
+[ 402]    05E2: 26 80 3F 20                           cmp es:[bx], SPA
+[ 403]    05E6: 75 F3                                 jne loop1
+[ 404]        :                                       
+[ 405]    05E8:                                       go1:
+[ 406]    05E8: 83 C3 02                              add bx, 2
+[ 407]    05EB: E8 02 FE                              call drawSpace
+[ 408]    05EE: 83 06 43 00 0A                        add [points],10
+[ 409]    05F3: E8 AD 00                              call points_show
+[ 410]        :                                       
+[ 411]    05F6:                                       return:
+[ 412]    05F6: C3                                    ret
+[ 413]        :                                       
+[ 414]    05F7:                                       gameOver:
+[ 415]    05F7: E8 85 FD                              call clearScreen
+[ 416]    05FA: B8 0A 00                              mov ax,0x000A
+[ 417]    05FD: F7 26 30 00                           mul [size_line]
+[ 418]    0601: 05 48 00                              add ax,0x0048
+[ 419]    0604: 8B F8                                 mov di, ax
+[ 420]    0606: BE CF 01                              mov si, offset game_over
+[ 421]    0609: B9 12 00                              mov cx, 0x0012
+[ 422]    060C: F3 A4                                 rep movsb
+[ 423]    060E: 50                                    push ax
+[ 424]        :                                       
+[ 425]    060F: E8 03 00                              call sleep
+[ 426]    0612: E9 F7 00                              jmp reload
+[ 427]        :                                       
+[ 428]    0615:                                       sleep:
+[ 429]    0615: B9 14 00                              mov cx,20
+[ 430]    0618: BA 00 00                              mov dx,0
+[ 431]    061B: B4 86                                 mov ah,86h
+[ 432]    061D: CD 15                                 int 15h
+[ 433]        :                                       
+[ 434]    061F:                                       cycle_read:
+[ 435]    061F: B4 01                                 mov ah,1
+[ 436]    0621: CD 16                                 int 16h
+[ 437]    0623: 75 01                                 jnz read
+[ 438]    0625: C3                                    ret
+[ 439]        :                                       
+[ 440]    0626:                                       read:
+[ 441]    0626: 32 E4                                 xor ah,ah
+[ 442]    0628: CD 16                                 int 16h
+[ 443]    062A: EB F3                                 jmp cycle_read
+[ 444]        :                                       
+[ 445]    062C:                                       check_go_awake:
+[ 446]    062C: 8B 1E 34 00                           mov bx, [ballLoc]
+[ 447]    0630: 03 1E 3F 00                           add bx, [vectorX]
+[ 448]    0634: 26 8B 07                              mov ax, es:[bx]
+[ 449]    0637: 3C FE                                 cmp al, 0FEh
+[ 450]    0639: 75 BB                                 jne return
+[ 451]    063B: A1 3D 00                              mov ax, [curY]
+[ 452]    063E: F7 26 30 00                           mul [size_line]
+[ 453]    0642: 8B D0                                 mov dx, ax
+[ 454]    0644: 03 06 3B 00                           add ax, [curX]
+[ 455]    0648: 2B 06 3F 00                           sub ax, [vectorX]
+[ 456]    064C: 8B D8                                 mov bx, ax
+[ 457]    064E: 26 8B 07                              mov ax, es:[bx]
+[ 458]    0651: 3C FE                                 cmp al, 0FEh
+[ 459]    0653: 75 A1                                 jne return
+[ 460]        :                                       
+[ 461]    0655:                                       loop3:
+[ 462]    0655: 83 EB 02                              sub bx, 2
+[ 463]    0658: 3B DA                                 cmp bx, dx
+[ 464]    065A: 74 09                                 je go2
+[ 465]    065C: 26 80 3F FE                           cmp es:[bx],0FEh
+[ 466]    0660: 74 F3                                 je loop3
+[ 467]    0662: 83 C3 02                              add bx, 2
+[ 468]        :                                       
+[ 469]    0665:                                       go2:
+[ 470]    0665: E8 88 FD                              call drawSpace
+[ 471]    0668: 8B 1E 34 00                           mov bx, [ballLoc]
+[ 472]    066C: 03 1E 3F 00                           add bx, [vectorX]
+[ 473]        :                                       
+[ 474]    0670:                                       loop4:
+[ 475]    0670: 83 EB 02                              sub bx,2
+[ 476]    0673: 26 80 3F FE                           cmp es:[bx],0FEh
+[ 477]    0677: 74 F7                                 je loop4
+[ 478]        :                                       
+[ 479]    0679:                                       next3:
+[ 480]    0679: 83 C3 02                              add bx,2
+[ 481]    067C: E8 71 FD                              call drawSpace
+[ 482]    067F: F7 1E 41 00                           neg [vectorY]
+[ 483]    0683: F7 1E 3F 00                           neg [vectorX]
+[ 484]    0687: A1 3D 00                              mov ax, [curY]
+[ 485]    068A: 03 06 41 00                           add ax, [vectorY]
+[ 486]    068E: A3 3D 00                              mov [curY], ax
+[ 487]    0691: A1 3B 00                              mov ax, [curX]
+[ 488]    0694: 03 06 3F 00                           add ax, [vectorX]
+[ 489]    0698: A3 3B 00                              mov [curX], ax
+[ 490]    069B: 83 06 43 00 14                        add [points],20
+[ 491]    06A0: E8 00 00                              call points_show
+[ 492]        :                                       
+[ 493]    06A3:                                       points_show:
+[ 494]    06A3: 53                                    push bx
+[ 495]    06A4: A1 45 00                              mov ax, [max_coints]
+[ 496]    06A7: 39 06 43 00                           cmp [points], ax
+[ 497]    06AB: 7C 03 E9 C8 00                        jge win
+[ 498]    06B0: BB 43 00                              lea bx, points
+[ 499]    06B3: BF 47 00                              lea di, points_str
+[ 500]    06B6: E8 0F 00                              call pointsTOstr
+[ 501]        :                                       
+[ 502]    06B9: 8B 0E 51 00                           mov cx, LEN
+[ 503]    06BD: BF 10 00                              mov di, 10h
+[ 504]    06C0: BE 47 00                              lea si, points_str
+[ 505]    06C3: FC                                    cld
+[ 506]    06C4: F3 A4                                 rep movsb
+[ 507]    06C6: 5B                                    pop bx
+[ 508]    06C7: C3                                    ret
+[ 509]        :                                       
+[ 510]    06C8:                                       pointsTOstr PROC
+[ 511]    06C8: 50                                    push ax
+[ 512]    06C9: 53                                    push bx
+[ 513]    06CA: 51                                    push cx
+[ 514]    06CB: 57                                    push di
+[ 515]        :                                       
+[ 516]    06CC: 8B 07                                 mov ax, [bx]
+[ 517]    06CE: BB 0A 00                              mov bx, 10
+[ 518]    06D1: 33 C9                                 xor cx, cx
+[ 519]        :                                       
+[ 520]    06D3:                                       division:
+[ 521]    06D3: 33 D2                                 xor dx, dx
+[ 522]    06D5: F7 F3                                 div bx
+[ 523]    06D7: 52                                    push dx
+[ 524]    06D8: 41                                    inc cx
+[ 525]    06D9: 3D 00 00                              cmp ax, 0
+[ 526]    06DC: 75 F5                                 jne division
+[ 527]        :                                       
+[ 528]    06DE: 89 0E 51 00                           mov LEN, cx
+[ 529]    06E2: 01 0E 51 00                           add LEN, cx
+[ 530]        :                                       
+[ 531]    06E6:                                       save_in_str:
+[ 532]    06E6: 5A                                    pop dx
+[ 533]    06E7: 80 C2 30                              add dl, '0'
+[ 534]    06EA: 88 15                                 mov [di], dl
+[ 535]    06EC: 47                                    inc di
+[ 536]    06ED: C6 05 0F                              mov [di], 0Fh
+[ 537]    06F0: 47                                    inc di
+[ 538]    06F1: E2 F3                                 loop save_in_str
+[ 539]        :                                       
+[ 540]    06F3: 5F                                    pop di
+[ 541]    06F4: 59                                    pop cx
+[ 542]    06F5: 5B                                    pop bx
+[ 543]    06F6: 58                                    pop ax
+[ 544]    06F7: C3                                    ret
+[ 545]        :                                       endp
+[ 546]        :                                       
+[ 547]    06F8:                                       drawRules proc
+[ 548]    06F8: BF 00 00                              mov di, 00h
+[ 549]    06FB: BE 6B 00                              lea si, rules
+[ 550]    06FE: 8B 0E CD 01                           mov cx, [size_rules]
+[ 551]    0702: F3 A4                                 rep movsb
+[ 552]        :                                       
+[ 553]    0704: B4 01                                 mov ah, 1
+[ 554]    0706: CD 21                                 int 21h
+[ 555]    0708: E8 74 FC                              call clearScreen
+[ 556]    070B: C3                                    ret
+[ 557]        :                                       endp
+[ 558]        :                                       
+[ 559]    070C:                                       reload:
+[ 560]    070C: B4 00                                 mov ah, 00h
+[ 561]    070E: CD 16                                 int 16h
+[ 562]    0710: BB 0D 1C                              mov bx, ENTER
+[ 563]    0713: 3B C3                                 cmp ax, bx
+[ 564]    0715: 75 59                                 jne endProgram
+[ 565]    0717: C7 06 43 00 00 00                     mov [points], 0
+[ 566]    071D: C7 06 32 00 50 0F                     mov [platformLoc],0x0F50
+[ 567]    0723: C7 06 34 00 A0 0F                     mov [ballLoc],0x0FA0
+[ 568]    0729: C7 06 3B 00 5A 00                     mov [curX],0x005Ah
+[ 569]    072F: C7 06 3D 00 17 00                     mov [curY],0x0017h
+[ 570]    0735: C7 06 3F 00 FE FF                     mov [vectorX],-2h
+[ 571]    073B: C7 06 41 00 FF FF                     mov [vectorY],-1h
+[ 572]    0741: C7 06 2A 00 05 00                     mov [line], 5
+[ 573]    0747: C7 06 36 00 00 8F                     mov [repeat], 0x8F00
+[ 574]    074D: C6 06 E7 01 00                        mov [flag], 0
+[ 575]    0752: E8 D1 FB                              call begin
+[ 576]    0755: E8 27 FC                              call clearScreen
+[ 577]    0758: E8 04 FC                              call drawTitle
+[ 578]    075B: E8 F4 FB                              call drawScore
+[ 579]    075E: E8 42 FF                              call points_show
+[ 580]    0761: E8 A4 FC                              call drawPlatform
+[ 581]    0764: E8 36 FD                              call drawBall
+[ 582]    0767: E8 24 FC                              call drawBreaks
+[ 583]    076A: E8 D9 FB                              call go
+[ 584]    076D: E9 A1 FB                              jmp main
+[ 585]        :                                       
+[ 586]    0770:                                       endProgram:
+[ 587]    0770: E8 0C FC                              call clearScreen
+[ 588]    0773: B8 00 4C                              mov ax, 4C00h
+[ 589]    0776: CD 21                                 int 21h
+[ 590]        :                                       
+[ 591]    0778:                                       win:
+[ 592]    0778: E8 04 FC                              call clearScreen
+[ 593]    077B: B8 0A 00                              mov ax,0x000A
+[ 594]    077E: F7 26 30 00                           mul [size_line]
+[ 595]    0782: 05 48 00                              add ax,0x0048
+[ 596]    0785: 8B F8                                 mov di, ax
+[ 597]    0787: BE E1 01                              mov si, offset winner
+[ 598]    078A: B9 0E 00                              mov cx, 0x000E
+[ 599]    078D: F3 A4                                 rep movsb
+[ 600]    078F: 50                                    push ax
+[ 601]    0790: E8 82 FE                              call sleep
+[ 602]    0793: E9 76 FF                              jmp reload
+[ 603]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 96      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 05      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: DA      -   check sum (l.byte)
+0013: F3      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 2F      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 37      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 2F      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

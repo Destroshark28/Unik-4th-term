@@ -26,7 +26,7 @@
                     db 's',0Fh,'c',0Fh,'o',0Fh,'r',0fh,'e',0Fh,':',0Fh,' ',0Fh ,' ',0h,' ',07h  ,' ',07h
     size_score      dw 0x0015h 
     
-    rules  db '<',0Fh,'-',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'w',0Fh,'r',0Fh ,'u',0Fh ,'m',0Fh ,' ',0Fh ,'v',0Fh ,'l',0Fh ,'e',0Fh ,'v',0Fh ,'o',0Fh
+    rules  db '<',0Fh,'-',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'s',0Fh,'t',0Fh ,'e',0Fh ,'p',0Fh ,' ',0Fh ,'l',0Fh ,'e',0Fh ,'f',0Fh ,'t',0Fh ,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
@@ -35,7 +35,7 @@
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh 
            
-           db '-',0Fh,'>',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'w',0Fh,'r',0Fh ,'u',0Fh ,'m',0Fh ,' ',0Fh ,'v',0Fh ,'p',0Fh ,'r',0Fh ,'a',0Fh ,'v',0Fh,'o',0Fh
+           db '-',0Fh,'>',0Fh,' ',0Fh,'-',0fh,' ',0Fh,'s',0Fh,'t',0Fh ,'e',0Fh ,'p',0Fh ,' ',0Fh ,'r',0Fh ,'i',0Fh ,'g',0Fh ,'h',0Fh ,'t',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
            db ' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh,' ',0Fh
@@ -58,29 +58,33 @@
     RIGHT   equ 0x4D00  ; "->"  
     ENTER   equ 0x1C0D  ; "Enter"
 .code 
- start:
+
+start:
     main1:
-    call begin
-    call cursorHide 
-    call clearScreen
-    call drawRules 
-    call drawTitle 
-    call drawScore
-    call points_show 
-    call drawPlatform 
-    call drawBall
-    call drawBreaks
-    call go 
- main: 
-    mov cx,[repeat]           
-  cycle:  
-    call movePlatform
-    dec cx
-    cmp cx, 0
-    jne cycle                  
-    call moveBall            
-    call drawBall
-    jmp main
+        call begin
+        call cursorHide 
+        call clearScreen
+        call drawRules 
+        call drawTitle 
+        call drawScore
+        call points_show 
+        call drawPlatform 
+        call drawBall
+        call drawBreaks
+        call go 
+    
+    main: 
+        mov cx,[repeat] 
+                  
+    cycle:  
+        call movePlatform
+        dec cx
+        cmp cx, 0
+        jne cycle                  
+        call moveBall            
+        call drawBall
+        jmp main      
+        
 logics: 
     begin:
         mov ax,@data
@@ -96,34 +100,40 @@ logics:
         mov [platformRight], ax 
         mov ax, [size_platform]           
         add [platformRight],ax            
-        ret
+        ret 
+        
      go:
         mov ah, 00h               
-        int 16h    
+        int 16h   
+         
      cursorHide:                  
         mov ah,1               
         mov cx, 0x2000           
         int 10h 
-        ret
+        ret        
+        
      drawScore:
         mov di, 00h
         lea si, score
         mov cx, [size_score]
         rep movsb
-        ret
+        ret      
+        
      drawTitle:                 
         xor ax, ax
         mov ax, 0x0001h
         mul [size_line]           
         mov di, ax
-        add ax, size_line
+        add ax, size_line   
+        
      cycle_:                 
         cmp di, ax           
         je return            
         mov si, offset line_title  
         mov cx, 2
         rep movsb
-        jmp cycle_       
+        jmp cycle_   
+            
      clearScreen:               
         mov ah, 0x06
         mov al, 0x00              
@@ -132,13 +142,15 @@ logics:
         mov dl, 0x80              
         mov dh, 0x25
         int 0x10
-        ret
+        ret           
+        
      drawBreaks:               
         mov ax, [line]         
         mul [size_line]         
         mov bx, ax 
         add ax, [size_line]     
-        mov cx, 0x0032           
+        mov cx, 0x0032   
+                
      loopl:         
         call drawBlock         
         call drawSpace          
@@ -147,7 +159,8 @@ logics:
         je return                
         cmp bx, ax             
         jge new_line
-        jmp loopl
+        jmp loopl    
+        
      new_line:                   
         add ax, [size_line]     
         add [line],1            
@@ -158,15 +171,18 @@ logics:
         je step                
         add bx, 8              
         pop ax
-        jmp loopl               
+        jmp loopl     
+                  
      step:
         pop ax
         mov bx, ax
         sub bx, [size_line]        
-        jmp loopl    
-     drawBlock:         ;block of 1 element  
+        jmp loopl        
+        
+     drawBlock:        
         push cx 
-        mov cx, 0x0004            
+        mov cx, 0x0004 
+                   
      drawBlock2:                      
         mov es:[bx], PL     
         mov es:[bx+1], 040h       
@@ -175,8 +191,9 @@ logics:
         cmp cx, 0                 
         jne drawBlock2
         pop cx                    
-        ret
-     drawSpace:          ;space of 1 element         
+        ret            
+        
+     drawSpace:               
         push cx
         mov cx, 0x0004
      drawSpace2:
@@ -187,28 +204,32 @@ logics:
         cmp cx, 0
         jne drawSpace2
         pop cx    
-        ret  
+        ret              
+        
      drawPlatform:                  
-        mov di, [platformLoc]      ;location
-        mov cx, [size_platform]             ;size
-        mov si, offset platform                  ;draw
+        mov di, [platformLoc]      
+        mov cx, [size_platform]           
+        mov si, offset platform                  
         cld
         rep movsb
-        ret  
+        ret        
+        
      movePlatform:            
         mov ah, 01h           
         int 16h
         jnz checkKey 
-        ret
-     checkKey:                    ;comparing with codes of right and left
+        ret               
+        
+     checkKey:                   
         mov ah, 00h           
         int 16h 
         cmp ax, RIGHT
         je  go_right
         cmp ax, LEFT
         je  go_left
-        ret
-     go_right:                ;wrum-wrum pravo       
+        ret       
+        
+     go_right:                   
         mov bx, [platformLoc]       
         add bx, [size_platform]      
         cmp bx, [endLine]            
@@ -221,8 +242,9 @@ logics:
         add [platformLoc],2
         add [platformRight], 2
         add [platformLeft], 2        
-        jmp movePlatform
-     go_left:                      ;wrum-wrum levo    
+        jmp movePlatform           
+        
+     go_left:                     
         cmp [platformLoc], 0F00h       
         jle movePlatform
         sub [platformLoc], 2
@@ -235,9 +257,11 @@ logics:
         mov bx, [platformLoc]           
         mov es:[bx],PL
         mov es:[bx+1], 044h
-        jmp movePlatform 
+        jmp movePlatform   
+        
      moveNull:
-        jmp movePlatform      
+        jmp movePlatform    
+          
      drawBall:
         xor bx, bx
         mov bx, [ballLoc]     
@@ -255,18 +279,22 @@ logics:
         rep movsb 
         mov es:[bx], SPA   
         mov es:[bx+1], 0h
-        ret
+        ret             
+        
      changeVectorY:          
         neg [vectorY]
-        jmp checkBorderX
+        jmp checkBorderX     
+        
      changeVectorX: 
         neg [vectorX]
         jmp next  
       
-     moveBall:                  
+moveBall:   
+               
      checkBorderY:               
         cmp [curY], 2           
-        je changeVectorY
+        je changeVectorY     
+        
      checkBorderX:              
         xor dx, dx               
         mov dx, [size_line]
@@ -274,7 +302,8 @@ logics:
         cmp [curX], dx          
         jge  changeVectorX      
         cmp [curX], 0           
-        jle  changeVectorX  
+        jle  changeVectorX   
+        
      next:                       
         xor ax, ax  
         mov ax, [curY]          
@@ -284,14 +313,16 @@ logics:
         mov bx, [curX]           
         add bx, [vectorX]       
         cmp bx, 0               
-        jl back1
+        jl back1       
+        
       next1:  
         mov [curX], bx           
         mul [size_line]          
         add ax, bx              
         mov di, ax
         push di
-        mov ax, es:[di] 
+        mov ax, es:[di]   
+        
      next2:  
         pop di
         mov ax, es:[di]
@@ -301,12 +332,14 @@ logics:
         je gameOver
         cmp al, 0FEh
         jne check_go_awake      
-        ret  
+        ret               
+        
      back1:                   
         neg [vectorX]
         add bx, [vectorX]      
         add bx, [vectorX]      
-        jmp next1   
+        jmp next1     
+        
      back_move: 
         call checkBrick       
         neg [vectorY]         
@@ -319,7 +352,8 @@ logics:
         mov [curX], ax          
         neg [vectorX]
         call checkChangeVector  
-        ret
+        ret              
+        
      checkChangeVector:           
         mov dx, [platformLeft]
         sub dx, [size_line] 
@@ -341,13 +375,16 @@ logics:
         sub dx, 2
         cmp dx, [ballLoc]
         je incVectorY
-        ret
+        ret              
+        
      decVectorX: 
         sub [vectorX], 2
-        ret
+        ret               
+        
      incVectorY:
         add [vectorX], 2
-        ret                                                       
+        ret               
+                                                
      checkBrick:                
         cmp [curY],0x0018       
         je return 
@@ -356,20 +393,24 @@ logics:
         mov ax, [curY]         
         mul [size_line]
         mov bx, ax
-        add bx, [curX]
+        add bx, [curX]    
+        
      loop1:                      
         sub bx, 2               
         cmp bx, ax
         jl go1
         cmp es:[bx], SPA
-        jne loop1
+        jne loop1     
+        
      go1:                       
         add bx, 2               
         call drawSpace
         add [points],10         
-        call points_show 
+        call points_show    
+        
      return:
-        ret      
+        ret               
+        
      gameOver:
         call clearScreen           
         mov ax,0x000A
@@ -382,7 +423,8 @@ logics:
         push ax
        
         call sleep                 
-        jmp reload                 
+        jmp reload   
+                      
      sleep:
         mov cx,20
         mov dx,0           
@@ -393,11 +435,13 @@ logics:
         mov ah,1              
         int 16h
         jnz read
-        ret   
+        ret      
+        
      read:
         xor ah,ah               
         int 16h 
-        jmp cycle_read   
+        jmp cycle_read    
+        
      check_go_awake: 
         mov bx, [ballLoc]          
         add bx, [vectorX]        
@@ -412,22 +456,26 @@ logics:
         mov bx, ax
         mov ax, es:[bx]         
         cmp al, 0FEh
-        jne return 
+        jne return      
+        
      loop3:                  
         sub bx, 2
         cmp bx, dx
         je go2
         cmp es:[bx],0FEh
         je loop3
-        add bx, 2
+        add bx, 2      
+        
      go2:                        
         call drawSpace
         mov bx, [ballLoc]          
-        add bx, [vectorX]        
+        add bx, [vectorX]   
+             
      loop4:                        
         sub bx,2                  
         cmp es:[bx],0FEh
-        je loop4
+        je loop4         
+        
      next3:
         add bx,2                    
         call drawSpace
@@ -457,7 +505,8 @@ points_show:
     cld
     rep movsb                         
     pop bx 
-    ret           
+    ret    
+           
 pointsTOstr PROC                           
     push ax
     push bx
@@ -466,7 +515,8 @@ pointsTOstr PROC
 
     mov ax, [bx]
     mov bx, 10
-    xor cx, cx       
+    xor cx, cx 
+          
 division:
     xor dx, dx
     div bx       
@@ -476,7 +526,8 @@ division:
     jne division
     
     mov LEN, cx
-    add LEN, cx  
+    add LEN, cx 
+     
 save_in_str:
     pop dx
     add dl, '0'
@@ -530,11 +581,13 @@ reload:
     call drawBall
     call drawBreaks
     call go 
-    jmp main
+    jmp main 
+    
 endProgram:
     call clearScreen
     mov ax, 4C00h
-    int 21h
+    int 21h    
+    
 win:
         call clearScreen
         mov ax,0x000A
