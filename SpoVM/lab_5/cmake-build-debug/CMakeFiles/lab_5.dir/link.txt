@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/lab_5.dir/main.cpp.o  -o lab_5 
+/usr/bin/c++  -g   CMakeFiles/lab_5.dir/main.cpp.o  -o lab_5 -lpthread -ldl 

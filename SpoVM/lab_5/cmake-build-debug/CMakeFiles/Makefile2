@@ -65,6 +65,43 @@ CMAKE_SOURCE_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_5
 CMAKE_BINARY_DIR = /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug
 
 #=============================================================================
+# Target rules for target CMakeFiles/AsyncIO.dir
+
+# All Build rule for target.
+CMakeFiles/AsyncIO.dir/all:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/depend
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles --progress-num= "Built target AsyncIO"
+.PHONY : CMakeFiles/AsyncIO.dir/all
+
+# Include target in all.
+all: CMakeFiles/AsyncIO.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/AsyncIO.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/AsyncIO.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/AsyncIO.dir/rule
+
+# Convenience name for target.
+AsyncIO: CMakeFiles/AsyncIO.dir/rule
+
+.PHONY : AsyncIO
+
+# clean rule for target.
+CMakeFiles/AsyncIO.dir/clean:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/clean
+.PHONY : CMakeFiles/AsyncIO.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/AsyncIO.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/lab_5.dir
 
 # All Build rule for target.

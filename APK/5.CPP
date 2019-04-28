@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <io.h>
+#include <string.h>
 
 int msCounter = 0;
 
@@ -159,10 +160,10 @@ void enableAlarm(void) {
 	int value, second, minute, hour;
 
 	do {
-		printf("Enter second: ");
+		printf("Enter hour: ");
 		fflush(stdin);
-		scanf("%d", &second);
-	} while (second > 59 || second < 0);
+		scanf("%d", &hour);
+	} while (hour > 23 || hour < 0);
 
 	do{
 		printf("Enter minute: ");
@@ -171,10 +172,10 @@ void enableAlarm(void) {
 	} while (minute > 59 || minute < 0);
 
 	do {
-		printf("Enter hour: ");
+		printf("Enter second: ");
 		fflush(stdin);
-		scanf("%d", &hour);
-	} while (hour > 23 || hour < 0);
+		scanf("%d", &second);
+	} while (second > 59 || second < 0);
 
 	outp(0x70, 0x01);
 	outp(0x71, IntToBCD(second));
@@ -205,7 +206,7 @@ void disableAlarm() {
 	outp(0x70, 0x0B);
 	outp(0xA1, inp(0x71) & 0xDF);		
 	_enable();
-	printf("Alarm is disable.\n");
+	printf("Alarm is disabled.\n");
 }
 
 void freeze(void) {
@@ -237,7 +238,8 @@ void interrupt far newInt70handler(...) {
 }
 
 void interrupt far newInt4Ahandler(...) {
-	printf("ALAAAAAAARM BIP BIP!!!!!!!!!!!!!!!!");
+	char *msg = "ALAAAAAAAAAAAARM BIP BIP!!!!!!!!!!!!!!!!!!!!!!\n";
+	write(1, msg, strlen(msg));
 	disableAlarm();
 }
 

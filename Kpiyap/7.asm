@@ -7,8 +7,8 @@ jmp start
 bad_args_message db "Bad command-line arguments.", '$'   
 bad_program_path_message db "Bad program path", '$'
 input_error_message db 'Incorrect number$'
-max_n_error_message db 'You exceeded the maximal N$'     
-min_n_error_message db 'You exceeded the minimal N$' 
+max_n_error_message db 'You exceeded the max N$'     
+min_n_error_message db 'You exceeded the min N$' 
 
 n_string db max_cmd_size + 2 dup(0)   
 program_path  db max_cmd_size + 2 dup(0) 
@@ -48,7 +48,8 @@ endm
 
 strlen proc
 	push bx
-	xor ax, ax
+	xor ax, ax  
+	
     start_calculate:
 	    mov bl, ds:[si] 
 	    cmp bl, endl

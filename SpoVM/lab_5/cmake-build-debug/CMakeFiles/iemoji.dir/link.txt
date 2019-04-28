@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libiemoji.so -o libiemoji.so CMakeFiles/iemoji.dir/AsyncReadWrite.cpp.o -lavformat 

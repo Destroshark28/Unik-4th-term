@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libasyncReaderWriter.so -o libasyncReaderWriter.so CMakeFiles/asyncReaderWriter.dir/asyncio/AsyncReadWrite.cpp.o -lavformat 

@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libmylib.so.1.0.1 -o libmylib.so.1.0.1 CMakeFiles/mylib.dir/AsyncReadWrite.cpp.o 

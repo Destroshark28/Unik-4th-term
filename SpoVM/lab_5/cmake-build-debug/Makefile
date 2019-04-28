@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named AsyncIO
+
+# Build rule for target.
+AsyncIO: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AsyncIO
+.PHONY : AsyncIO
+
+# fast build rule for target.
+AsyncIO/fast:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/build
+.PHONY : AsyncIO/fast
+
+#=============================================================================
 # Target rules for targets named lab_5
 
 # Build rule for target.
@@ -157,8 +170,9 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... lab_5"
 	@echo "... edit_cache"
+	@echo "... AsyncIO"
+	@echo "... lab_5"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
