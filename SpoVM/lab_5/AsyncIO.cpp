@@ -18,6 +18,7 @@ namespace constants {
     const int SEMAPHORE_AMOUNT = 1;
     const int SEMAPHORE_INDEX = 0;
     const char INITIAL_PATH[] = "/home/ilyshka/Desktop/Unik/SpoVM/lab_5/main.cpp";
+    const int BUFFER_SIZE = 10;
 }
 
 typedef struct argReaderThread {
@@ -81,32 +82,49 @@ int getShMemoryId() {
 
 std::string readFromFile(const std::string &fileName) {
     struct aiocb aiocb{};
-    char *buffer = new char[100];
+    char *buffer = new char[constants::BUFFER_SIZE];
 
     FILE *file = fopen(fileName.c_str(), "r");
     if (file == nullptr) {
-        std::cout << "Error while reading" << std::endl;
+        std::cout << "Error while reading file: " << fileName << std::endl;
         return "";
     }
 
+    std::string result = std::string();
     aiocb.aio_fildes = fileno(file);
-    aiocb.aio_nbytes = 100;
+    aiocb.aio_nbytes = constants::BUFFER_SIZE;
     aiocb.aio_buf = buffer;
 
-    if (aio_read(&aiocb) == -1) {
-        std::cout << "Error while reading" << std::endl;
-        fclose(file);
-    }
+    int offset = 0;
+    do {
+        for (int i = 0; i < constants::BUFFER_SIZE; ++i) {
+            buffer[i] = 0;
+        }
+        aiocb.aio_offset = offset;
 
-    while (aio_error(&aiocb) == EINPROGRESS);
+        if (aio_read(&aiocb) == -1) {
+            std::cout << "Error while reading file: " << fileName << std::endl;
+            fclose(file);
+            delete[] (buffer);
+            return result;
+        }
+
+        while (aio_error(&aiocb) == EINPROGRESS);
+
+        if (aio_return(&aiocb) == -1) {
+            std::cout << "Error while reading file: " << fileName << std::endl;
+            fclose(file);
+            delete[] (buffer);
+            return result;
+        }
+
+        result.append(buffer);
+        offset += constants::BUFFER_SIZE;
+    } while (buffer[constants::BUFFER_SIZE - 1]);
 
     fclose(file);
-
-    if (aio_return(&aiocb) == -1) {
-        std::cout << "Error while reading" << std::endl;
-        return "";
-    }
-    return buffer;
+    delete[] (buffer);
+    return result;
 }
 
 void writeToFile(const std::string &fileName, std::string &data) {
@@ -125,15 +143,16 @@ void writeToFile(const std::string &fileName, std::string &data) {
     if (aio_write(&aiocb) == -1) {
         std::cout << "Error while writing" << std::endl;
         fclose(file);
+        return;
     }
 
     while (aio_error(&aiocb) == EINPROGRESS);
 
-    fclose(file);
-
     if (aio_return(&aiocb) == -1) {
         std::cout << "Error while writing" << std::endl;
     }
+
+    fclose(file);
 }
 
 void *readerThreadRoutine(void *arg) {
