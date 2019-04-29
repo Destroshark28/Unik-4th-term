@@ -9,6 +9,8 @@
 #include <sys/shm.h>
 #include <string.h>
 #include <unistd.h>
+#include <aio.h>
+#include <fcntl.h>
 
 namespace constants {
     const int KEY_ID_SEMAPHORE = 234;
@@ -78,13 +80,60 @@ int getShMemoryId() {
 }
 
 std::string readFromFile(const std::string &fileName) {
-    sleep(1);
-    return "AAA";
+    struct aiocb aiocb{};
+    char *buffer = new char[100];
+
+    FILE *file = fopen(fileName.c_str(), "r");
+    if (file == nullptr) {
+        std::cout << "Error while reading" << std::endl;
+        return "";
+    }
+
+    aiocb.aio_fildes = fileno(file);
+    aiocb.aio_nbytes = 100;
+    aiocb.aio_buf = buffer;
+
+    if (aio_read(&aiocb) == -1) {
+        std::cout << "Error while reading" << std::endl;
+        fclose(file);
+    }
+
+    while (aio_error(&aiocb) == EINPROGRESS);
+
+    fclose(file);
+
+    if (aio_return(&aiocb) == -1) {
+        std::cout << "Error while reading" << std::endl;
+        return "";
+    }
+    return buffer;
 }
 
-void writeToFile(const std::string &fileName, const std::string &data) {
-    sleep(1);
-    std::cout << data << std::endl;
+void writeToFile(const std::string &fileName, std::string &data) {
+    struct aiocb aiocb{};
+
+    FILE *file = fopen(fileName.c_str(), "a+");
+    if (file == nullptr) {
+        std::cout << "Error while writing" << std::endl;
+        return;
+    }
+
+    aiocb.aio_fildes = fileno(file);
+    aiocb.aio_nbytes = data.length();
+    aiocb.aio_buf = (char *) data.c_str();
+
+    if (aio_write(&aiocb) == -1) {
+        std::cout << "Error while writing" << std::endl;
+        fclose(file);
+    }
+
+    while (aio_error(&aiocb) == EINPROGRESS);
+
+    fclose(file);
+
+    if (aio_return(&aiocb) == -1) {
+        std::cout << "Error while writing" << std::endl;
+    }
 }
 
 void *readerThreadRoutine(void *arg) {
