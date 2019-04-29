@@ -8,7 +8,7 @@ using namespace std;
 using ConcatFunction = void (*)(list<string> sourceFiles, string outputFileName);
 
 static const char *ASYNC_IO_LIB_NAME = "libAsyncIO.so";
-static const char *ASYNC_IO_FUNCTION_NAME = "PerformConcat";
+static const char *ASYNC_IO_FUNCTION_NAME = "concatFiles";
 static const char *OUTPUT_FILE_NAME = "output.txt";
 
 int main() {
@@ -35,7 +35,7 @@ int main() {
     fileNames.emplace_back("read_files/fifth.txt");
 
     cout << "Start processing..." << endl;
-    // concatFunction(fileNames, OUTPUT_FILE_NAME);
+    concatFunction(fileNames, OUTPUT_FILE_NAME);
     cout << "Finish" << endl;
 
     dlclose(soHandle);
