@@ -28,13 +28,13 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    fileNames.emplace_back("read_files/first.txt");
-    fileNames.emplace_back("read_files/second.txt");
-    fileNames.emplace_back("read_files/third.txt");
-    fileNames.emplace_back("read_files/fourth.txt");
-    fileNames.emplace_back("read_files/fifth.txt");
+    fileNames.emplace_back("readFiles/first.txt");
+    fileNames.emplace_back("readFiles/second.txt");
+    fileNames.emplace_back("readFiles/third.txt");
+    fileNames.emplace_back("readFiles/fourth.txt");
+    fileNames.emplace_back("readFiles/fifth.txt");
 
-    cout << "Start processing..." << endl;
+    cout << "Start processing" << endl;
     concatFunction(fileNames, OUTPUT_FILE_NAME);
     cout << "Finish" << endl;
 

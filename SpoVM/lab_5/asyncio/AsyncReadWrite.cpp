@@ -82,45 +82,109 @@ int getShMemoryId() {
     return shmget(key, 1, IPC_CREAT | SHM_R | SHM_W);
 }
 
+string readFromFile(const string &fileName) {
+    return "AAA";
+}
+
+void writeToFile(const string &fileName, const string &data) {
+    cout << data << endl;
+}
+
 void *readerThreadRoutine(void *arg) {
+    struct sembuf semaphoreSet{};
     auto args = static_cast<readerThreadArgs *> (arg);
+
+    for (auto &fileName : *args->sourceFiles) {
+
+        strcpy((char *) getShMemory(args->shMemoryId), readFromFile(fileName).c_str());
+
+        semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+        semaphoreSet.sem_op = 1;
+        semaphoreSet.sem_flg = SEM_UNDO;
+        semop(args->semaphoreId, &semaphoreSet, 1);
+
+        semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+        semaphoreSet.sem_op = -1;
+        semaphoreSet.sem_flg = SEM_UNDO;
+        semop(args->semaphoreId, &semaphoreSet, 1);
+    }
+
+    semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+    semaphoreSet.sem_op = 2;
+    semaphoreSet.sem_flg = SEM_UNDO;
+    semop(args->semaphoreId, &semaphoreSet, 1);
+
+    semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+    semaphoreSet.sem_op = -3;
+    semaphoreSet.sem_flg = SEM_UNDO;
+    semop(args->semaphoreId, &semaphoreSet, 1);
+
+    return nullptr;
 }
 
 void *writerThreadRoutine(void *arg) {
+    struct sembuf semaphoreSet{};
     auto args = static_cast<writerThreadArgs *> (arg);
 
+    while (true) {
+        semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+        semaphoreSet.sem_op = -1;
+        semaphoreSet.sem_flg = SEM_UNDO;
+        semop(args->semaphoreId, &semaphoreSet, 1);
+
+        if (semctl(args->semaphoreId, constants::SEMAPHORE_INDEX, GETVAL) == 1) {
+            semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+            semaphoreSet.sem_op = 3;
+            semaphoreSet.sem_flg = SEM_UNDO;
+            semop(args->semaphoreId, &semaphoreSet, 1);
+
+            return nullptr;
+        }
+
+        string data = (char *) getShMemory(args->shMemoryId);
+        writeToFile(args->outputFileName, data);
+
+        semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
+        semaphoreSet.sem_op = 1;
+        semaphoreSet.sem_flg = SEM_UNDO;
+        semop(args->semaphoreId, &semaphoreSet, 1);
+    }
 }
 
 int startReaderThread(pthread_t &thread, list<string> &sourceFiles, int &shMemoryId, int &semaphoreId) {
     pthread_attr_t attr;
     pthread_attr_init(&attr);
+
     auto *args = (readerThreadArgs *) malloc(sizeof(readerThreadArgs));
     args->sourceFiles = &sourceFiles;
     args->shMemoryId = shMemoryId;
     args->semaphoreId = semaphoreId;
+
     return pthread_create(&thread, &attr, readerThreadRoutine, args);
 }
 
 int startWriterThread(pthread_t &thread, string &outputFileName, int &shMemoryId, int &semaphoreId) {
     pthread_attr_t attr;
     pthread_attr_init(&attr);
+
     auto *args = (writerThreadArgs *) malloc(sizeof(writerThreadArgs));
     args->outputFileName = outputFileName;
     args->shMemoryId = shMemoryId;
     args->semaphoreId = semaphoreId;
+
     return pthread_create(&thread, &attr, writerThreadRoutine, args);
 }
 
 extern "C" void concatFiles(list<string> &sourceFiles, string &outputFileName) {
-    struct sembuf semaphoreSet{};
     struct shmid_ds shMemoryStruct{};
 
     int semaphoreId = getSemaphoreId();
     int shMemoryId = getShMemoryId();
     pthread_t readerThread, writerThread;
+    void *threadExitStatus;
 
     if (semaphoreId == -1) {
-        cerr << "Error:  " << strerror(errno) << endl;
+        cerr << "Error: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -129,15 +193,17 @@ extern "C" void concatFiles(list<string> &sourceFiles, string &outputFileName) {
         exit(EXIT_FAILURE);
     }
 
+    if (startWriterThread(writerThread, outputFileName, shMemoryId, semaphoreId)) {
+        std::cout << "Error while creation thread" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     if (startReaderThread(readerThread, sourceFiles, shMemoryId, semaphoreId)) {
         std::cout << "Error while creation thread" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    if (startWriterThread(writerThread, outputFileName, shMemoryId, semaphoreId)) {
-        std::cout << "Error while creation thread" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    pthread_join(readerThread, &threadExitStatus);
 
     deleteSemaphoreSet(semaphoreId);
     shmdt(getShMemory(shMemoryId));
