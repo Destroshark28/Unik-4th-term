@@ -198,13 +198,13 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_DESCRIPTION:STATIC=Async IO
+CMAKE_PROJECT_DESCRIPTION:STATIC=
 
 //Value Computed by CMake
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=AsyncIO
+CMAKE_PROJECT_NAME:STATIC=lab_5
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0.0
@@ -327,6 +327,12 @@ mylib_BINARY_DIR:STATIC=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug
 
 //Value Computed by CMake
 mylib_SOURCE_DIR:STATIC=/home/ilyshka/Desktop/Unik/SpoVM/lab_5
+
+//Value Computed by CMake
+myproject_BINARY_DIR:STATIC=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug
+
+//Value Computed by CMake
+myproject_SOURCE_DIR:STATIC=/home/ilyshka/Desktop/Unik/SpoVM/lab_5
 
 
 ########################

@@ -1,4 +1,4 @@
 /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/edit_cache.dir
 /home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/AsyncIO.dir
-/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/lab_5.dir
+/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/Main.dir

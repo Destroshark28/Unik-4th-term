@@ -42,7 +42,7 @@ void main() {
 
 void wait(void) {
 	do {								
-		outp(0x70, 0x0A);
+	     outp(0x70, 0x0A);
 	} while (inp(0x71) & 0x80);			
 }
 
@@ -93,6 +93,7 @@ void getTime(void) {
 		default: printf("Day of week is not set\n"); break;
 	}
 }
+
 void setTime(void) {
 	int value;
 	freeze();							
@@ -157,6 +158,7 @@ void setTime(void) {
 }
 
 void enableAlarm(void) {
+	disableAlarm();
 	int value, second, minute, hour;
 
 	do {
@@ -189,10 +191,10 @@ void enableAlarm(void) {
 	outp(0x70, 0xB);
 	outp(0x71, inp(0x71) | 0x20);
 
-	disable();
+	_disable();
 	oldInt4Ah = getvect(0x4A);
 	setvect(0x4A, newInt4Ahandler);
-	enable(); 			
+	_enable(); 			
 }
 
 void disableAlarm() {
@@ -202,7 +204,6 @@ void disableAlarm() {
 	}
 	_disable();
 	setvect(0x4A, oldInt4Ah);
-	outp(0xA1, (inp(0xA0) | 0x01));
 	outp(0x70, 0x0B);
 	outp(0xA1, inp(0x71) & 0xDF);		
 	_enable();
@@ -231,16 +232,13 @@ void unfreeze(void) {
 
 void interrupt far newInt70handler(...) {
 	msCounter++;
-	outp(0x70, 0x0C);
-	inp(0x71);
-	outp(0x20, 0x20);
-	outp(0xA0, 0x20);
+	oldInt70h();
 }
 
 void interrupt far newInt4Ahandler(...) {
-	char *msg = "ALAAAAAAAAAAAARM BIP BIP!!!!!!!!!!!!!!!!!!!!!!\n";
-	write(1, msg, strlen(msg));
-	disableAlarm();
+	char *msg = "ALARM\n";
+	write(1,msg,strlen(msg));
+	oldInt4Ah();
 }
 
 void delay_time(void) {
@@ -252,6 +250,7 @@ void delay_time(void) {
 		fflush(stdin);
 		scanf("%ld", &delayPeriod);
 	} while (delayPeriod < 1);
+
 	printf("Time before delay: ");
 	getTime();
 	printf("Delaying ...\n");
@@ -267,7 +266,7 @@ void delay_time(void) {
 	outp(0x71, inp(0x71) | 0x40);			
 
 	msCounter = 0;
-	while (msCounter != delayPeriod);	
+	while (msCounter < delayPeriod);	
 	printf("End delay of %d ms\n", msCounter);
 	_disable();
 	setvect(0x70, oldInt70h);			

@@ -1,13 +1,13 @@
-cmake_minimum_required(VERSION 3.14)
+PROJECT(lab_5)
 
-project(lab_5)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
+SET(CMAKE_CXX_STANDARD 14)
 
-set(CMAKE_CXX_STANDARD 14)
+SET(AsyncIOlibSrc asyncio/AsyncReadWrite.cpp)
+ADD_LIBRARY(AsyncIO SHARED ${AsyncIOlibSrc})
+TARGET_LINK_LIBRARIES(AsyncIO pthread rt)
 
-include(asyncio/CMakeLists.txt)
+SET(MainSrc main.cpp)
+ADD_EXECUTABLE(Main ${MainSrc})
 
-add_executable(lab_5 main.cpp)
-
-target_link_libraries(lab_5 pthread)
-target_link_libraries(lab_5 ${CMAKE_DL_LIBS})
-
+TARGET_LINK_LIBRARIES(Main AsyncIO ${CMAKE_DL_LIBS})

@@ -10,14 +10,14 @@ input_error_message db 'Incorrect number$'
 max_n_error_message db 'You exceeded the max N$'     
 min_n_error_message db 'You exceeded the min N$' 
 
-n_string db max_cmd_size + 2 dup(0)   
-program_path  db max_cmd_size + 2 dup(0) 
+n_string db max_cmd_size + dup(0)   
+program_path  db max_cmd_size + dup(0) 
 
 max_cmd_size equ 127  
-buffer db max_cmd_size + 2 dup(0)
+buffer db max_cmd_size + dup(0)
 
 cmd_size db ?
-cmd_text db max_cmd_size + 2 dup(0) 
+cmd_text db max_cmd_size + dup(0) 
 
 space_symbol equ 32
 new_line_symbol equ 13
@@ -189,27 +189,6 @@ atoi proc
         ret
 atoi endp
 
-check_number proc
-    pusha
-    xor bx, bx
-    check_start:
-        mov cl, [si]
-        cmp cl, 0
-        je check_exit
-        inc si
-        inc bx
-        jmp check_start
-    check_exit:
-        mov ax, bx
-        mov bl, 2
-        div bl
-        mov ah, 0
-        sub si, ax
-        mov [si], 0
-        popa
-        ret
-check_number endp 
-
 check_path proc
     pusha        
     mov si, offset program_path
@@ -310,7 +289,6 @@ start:
 	popa
     call check_path
 	mov si,offset n_string
-	call check_number
 	call atoi
 	mov n, ax      
 	
@@ -322,11 +300,11 @@ start:
     	
     check_max_size:		
     	cmp ax, n_max_size
-    	jbe good_n
+    	jbe start_another_programm
     	print_message max_n_error_message
     	exit_app      
     	
-    good_n:
+    start_another_programm:
         mov ax, counter
         cmp ax, n
         jae end_main
@@ -335,24 +313,28 @@ start:
         mov ah,4Ah									
         stack_shift = program_length + 100h + 200h	
         mov bx,stack_shift shr 4 + 1 					
-        int 21h
+        int 21h   
+        
         mov ax,cs										
         mov word ptr EPB + 4,ax          			
         mov word ptr EPB + 8,ax         		
-        mov word ptr EPB + 0Ch,ax        		
+        mov word ptr EPB + 0Ch,ax      
+          		
         mov ax,4B00h             						
         mov dx,offset program_path     			
         mov bx,offset EPB    						
-        int 21h
+        int 21h        
+        
         inc counter
-        jmp good_n    
+        jmp start_another_programm    
         
     end_main:                 
         int 20h 										      
 
 EPB dw 0000                			
     dw offset commandline,0  		
-    dw 005Ch,0,006Ch,0       	
+    dw 005Ch,0,006Ch,0   
+    	
 commandline db 125                 
     db " /?"                 	
 command_text db 122 dup (?)    

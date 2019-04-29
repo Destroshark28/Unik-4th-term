@@ -15,19 +15,18 @@ int count = 0;
 
 void main() {
 	clrscr();
-	disable();
+	_disable();
 	oldInt9 = getvect(9);						
 	setvect(9, newInt9);						
-	enable();
+	_enable();
 
 	while (!quitFlag) {							
-		if (blinkingON)							
-			blinking();							
+		if (blinkingON)	blinking();							
 	}
 
-	disable();
+	_disable();
 	setvect(9, oldInt9);						
-	enable();
+	_enable();
 
 	return;
 }
@@ -37,11 +36,12 @@ void interrupt newInt9(...) {
 	value = inp(0x60);							
 	if (value == 0x01) quitFlag = 1;			
 
-	if (value == 0x10 && blinkingON == 0)       
+	if (value == 0x10 && blinkingON == 0){       
 		blinkingON = 1;
-	else if (value == 0x10 && blinkingON == 1)
+	} else if (value == 0x10 && blinkingON == 1) { 
 		blinkingON = 0;
-
+	}
+	
 	if (value == 0xFE && blinkingON == 1) {		
 		isResend = 1;							
 		count++;
@@ -51,9 +51,10 @@ void interrupt newInt9(...) {
 			outp(0x20, 0x20);							
 			return;
 		}
+	} else {
+		isResend = 0;
 	}
-	else isResend = 0;
-
+	
 	printf("\t%x", value);
 	outp(0x20, 0x20);							
 }
@@ -61,14 +62,14 @@ void interrupt newInt9(...) {
 void indicator(unsigned char mask) {
 	isResend = 1;
 	while (isResend) {							
-		while ((inp(0x64) & 0x02) != 0x00);		
+		while (inp(0x64) & 0x02);		
 		outp(0x60, 0xED);						
 		delay(50);
 	}
 
 	isResend = 1;
 	while (isResend) {							
-		while ((inp(0x64) & 0x02) != 0x00);		
+		while (inp(0x64) & 0x02);		
 		outp(0x60, mask);						
 		delay(50);
 	}
@@ -77,45 +78,8 @@ void indicator(unsigned char mask) {
 void blinking() {
 	indicator(0x01);							
 	delay(200);
-	indicator(0x04);							
-	delay(200);
 	indicator(0x02);							
 	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x07);							
-	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x06);							
-	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x05);							
-	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x03);							
-	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x01);							
-	delay(200);
 	indicator(0x04);							
-	delay(200);
-	indicator(0x02);							
-	delay(200);
-	indicator(0x00);							
-	delay(200);
-
-	indicator(0x07);							
-	delay(200);
-	indicator(0x00);							
 	delay(200);
 }
-

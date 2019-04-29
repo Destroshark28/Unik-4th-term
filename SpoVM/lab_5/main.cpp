@@ -1,58 +1,43 @@
 #include <iostream>
 #include <dlfcn.h>
 #include <string>
-#include <vector>
+#include <list>
 
 using namespace std;
 
-typedef void (*PerformConcatFunction)(std::vector<std::string> source_files, std::string output_file_path);
+using ConcatFunction = void (*)(list<string> sourceFiles, string outputFileName);
 
-int main()
-{
-    int freeResult, runTimeLinkSuccess = 0;
-    void* soHandle = NULL;
-    PerformConcatFunction PerformConcat = NULL;
+static const char *ASYNC_IO_LIB_NAME = "libAsyncIO.so";
+static const char *ASYNC_IO_FUNCTION_NAME = "PerformConcat";
+static const char *OUTPUT_FILE_NAME = "output.txt";
 
-    //Load the .so and keep the handle to it
-    soHandle = dlopen("cmake-build-debug/AsyncIO.pc", RTLD_NOW);
+int main() {
+    void *soHandle = nullptr;
+    ConcatFunction concatFunction = nullptr;
+    list<string> fileNames;
 
-    // If the handle is valid, try to get the function address.
-    if (NULL != soHandle)
-    {
-        cout << "So far... So good..." << endl;
-        //Get pointer to our function using dlsym:
-        PerformConcat = (PerformConcatFunction)dlsym(soHandle,
-                                                     "PerformConcat");
-
-        // If the function address is valid, call the function.
-        if (runTimeLinkSuccess = (NULL != PerformConcat))
-        {
-            vector<string> file_names;
-            file_names.push_back(string("read_files/first.txt"));
-            file_names.push_back(string("read_files/second.txt"));
-            file_names.push_back(string("read_files/third.txt"));
-            file_names.push_back(string("read_files/fourth.txt"));
-            file_names.push_back(string("read_files/fifth.txt"));
-
-            cout << "Starting processing..." << endl;
-            PerformConcat(file_names, "output.txt");
-
-            cout << "The task was executed..." << endl;
-            cout << "Press any key to continue..." << endl;
-            cin.ignore();
-        }
-
-        //Free the library:
-        cout << "Unattaching .so library..." << endl;
-        freeResult = dlclose(soHandle);
+    soHandle = dlopen(ASYNC_IO_LIB_NAME, RTLD_NOW);
+    if (soHandle == nullptr) {
+        cout << "Error while opening so lib" << dlerror() << endl;
+        exit(EXIT_FAILURE);
     }
 
-    //If unable to call the .so function, use an alternative.
-    if (!runTimeLinkSuccess)
-        cout << "Unable to call .so function" << endl;
+    concatFunction = (ConcatFunction) dlsym(soHandle, ASYNC_IO_FUNCTION_NAME);
+    if (concatFunction == nullptr) {
+        cout << "Error while calling function" << endl;
+        exit(EXIT_FAILURE);
+    }
 
-    if(soHandle == NULL)
-        cout << "so sorry : " << dlerror() << endl;
+    fileNames.emplace_back("read_files/first.txt");
+    fileNames.emplace_back("read_files/second.txt");
+    fileNames.emplace_back("read_files/third.txt");
+    fileNames.emplace_back("read_files/fourth.txt");
+    fileNames.emplace_back("read_files/fifth.txt");
 
-    return 0;
+    cout << "Start processing..." << endl;
+    // concatFunction(fileNames, OUTPUT_FILE_NAME);
+    cout << "Finish" << endl;
+
+    dlclose(soHandle);
+    exit(EXIT_SUCCESS);
 }

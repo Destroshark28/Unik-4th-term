@@ -124,17 +124,44 @@ AsyncIO/fast:
 .PHONY : AsyncIO/fast
 
 #=============================================================================
-# Target rules for targets named lab_5
+# Target rules for targets named Main
 
 # Build rule for target.
-lab_5: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab_5
-.PHONY : lab_5
+Main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Main
+.PHONY : Main
 
 # fast build rule for target.
-lab_5/fast:
-	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/build
-.PHONY : lab_5/fast
+Main/fast:
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/build
+.PHONY : Main/fast
+
+asyncio/AsyncReadWrite.o: asyncio/AsyncReadWrite.cpp.o
+
+.PHONY : asyncio/AsyncReadWrite.o
+
+# target to build an object file
+asyncio/AsyncReadWrite.cpp.o:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o
+.PHONY : asyncio/AsyncReadWrite.cpp.o
+
+asyncio/AsyncReadWrite.i: asyncio/AsyncReadWrite.cpp.i
+
+.PHONY : asyncio/AsyncReadWrite.i
+
+# target to preprocess a source file
+asyncio/AsyncReadWrite.cpp.i:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.i
+.PHONY : asyncio/AsyncReadWrite.cpp.i
+
+asyncio/AsyncReadWrite.s: asyncio/AsyncReadWrite.cpp.s
+
+.PHONY : asyncio/AsyncReadWrite.s
+
+# target to generate assembly for a file
+asyncio/AsyncReadWrite.cpp.s:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.s
+.PHONY : asyncio/AsyncReadWrite.cpp.s
 
 main.o: main.cpp.o
 
@@ -142,7 +169,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -151,7 +178,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -160,7 +187,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/lab_5.dir/build.make CMakeFiles/lab_5.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -172,7 +199,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... AsyncIO"
-	@echo "... lab_5"
+	@echo "... Main"
+	@echo "... asyncio/AsyncReadWrite.o"
+	@echo "... asyncio/AsyncReadWrite.i"
+	@echo "... asyncio/AsyncReadWrite.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
