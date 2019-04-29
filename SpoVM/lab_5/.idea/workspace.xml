@@ -14,9 +14,14 @@
   <component name="ChangeListManager">
     <list default="true" id="17c27c3a-2dd3-43c0-aae4-aa1607fde23f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asyncio/AsyncReadWrite.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AsyncIO.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/AsyncIO.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/lab_5.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/lab_5.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -28,6 +33,7 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+    <option name="clangWarnings" value="-Wno-unused-variable,-Werror=implicit-function-declaration,-Wshadow,-Wno-shadow-field-in-constructor-modified,-Wno-shadow-ivar,-Wno-unknown-pragmas" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -50,19 +56,21 @@
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp">
+        <entry file="file://$PROJECT_DIR$/AsyncIO.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+            <state relative-caret-position="-348">
+              <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#154#169#0" expanded="true" />
                 <element signature="e#77#331#0" />
+                <element signature="e#552#609#1" />
+                <element signature="e#626#680#1" />
                 <element signature="e#333#642#0" />
                 <element signature="e#644#732#0" />
                 <element signature="e#734#986#0" />
@@ -70,6 +78,11 @@
                 <element signature="e#1088#1185#0" />
                 <element signature="e#1187#1328#0" />
                 <element signature="e#1330#1487#0" />
+                <element signature="e#1956#2626#0" />
+                <element signature="e#2745#3452#0" />
+                <element signature="e#1708#1891#0" />
+                <element signature="e#2213#2442#0" />
+                <element signature="e#5001#6036#0" />
               </folding>
             </state>
           </provider>
@@ -78,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="30" column="38" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="38" />
+            <state relative-caret-position="75">
+              <caret line="5" column="73" selection-start-line="5" selection-start-column="73" selection-end-line="5" selection-end-column="73" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -113,8 +126,9 @@
         <option value="$PROJECT_DIR$/asyncio/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/asyncio/AsyncReadWrite.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/AsyncIO.cpp" />
       </list>
     </option>
   </component>
@@ -140,11 +154,6 @@
             <path>
               <item name="lab_5" type="b2602c69:ProjectViewProjectNode" />
               <item name="lab_5" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lab_5" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lab_5" type="462c0819:PsiDirectoryNode" />
-              <item name="asyncio" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -205,7 +214,7 @@
       <updated>1555850960158</updated>
       <workItem from="1555850961785" duration="294000" />
       <workItem from="1555864448962" duration="4158000" />
-      <workItem from="1556558096923" duration="8159000" />
+      <workItem from="1556558096923" duration="10833000" />
     </task>
     <task id="LOCAL-00001" summary="Fix so gen">
       <created>1556561990646</created>
@@ -214,15 +223,28 @@
       <option name="project" value="LOCAL" />
       <updated>1556561990646</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add threads">
+      <created>1556566274575</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1556566274575</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Complete semaphore logic">
+      <created>1556568451920</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1556568451920</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12611000" />
+    <option name="totallyTimeSpent" value="15285000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25757575" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -262,7 +284,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix so gen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix so gen" />
+    <MESSAGE value="Add threads" />
+    <MESSAGE value="Complete semaphore logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete semaphore logic" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -306,23 +330,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="30" column="38" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/8/bits/stl_list.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -330,13 +337,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asyncio/AsyncReadWrite.cpp">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+        <state relative-caret-position="75">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="73" selection-start-line="5" selection-start-column="73" selection-end-line="5" selection-end-column="73" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AsyncIO.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-348">
+          <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+          <folding>
+            <element signature="e#154#169#0" expanded="true" />
             <element signature="e#77#331#0" />
+            <element signature="e#552#609#1" />
+            <element signature="e#626#680#1" />
             <element signature="e#333#642#0" />
             <element signature="e#644#732#0" />
             <element signature="e#734#986#0" />
@@ -344,6 +370,11 @@
             <element signature="e#1088#1185#0" />
             <element signature="e#1187#1328#0" />
             <element signature="e#1330#1487#0" />
+            <element signature="e#1956#2626#0" />
+            <element signature="e#2745#3452#0" />
+            <element signature="e#1708#1891#0" />
+            <element signature="e#2213#2442#0" />
+            <element signature="e#5001#6036#0" />
           </folding>
         </state>
       </provider>

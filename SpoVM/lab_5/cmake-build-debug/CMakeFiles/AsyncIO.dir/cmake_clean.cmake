@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o"
+  "CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o"
   "libAsyncIO.pdb"
   "libAsyncIO.so"
 )

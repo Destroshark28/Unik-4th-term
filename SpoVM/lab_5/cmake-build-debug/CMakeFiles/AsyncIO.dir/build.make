@@ -57,27 +57,27 @@ include CMakeFiles/AsyncIO.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/AsyncIO.dir/flags.make
 
-CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o: CMakeFiles/AsyncIO.dir/flags.make
-CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o: ../asyncio/AsyncReadWrite.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o -c /home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.cpp
+CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o: CMakeFiles/AsyncIO.dir/flags.make
+CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o: ../AsyncIO.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o -c /home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp
 
-CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.cpp > CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.i
+CMakeFiles/AsyncIO.dir/AsyncIO.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AsyncIO.dir/AsyncIO.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp > CMakeFiles/AsyncIO.dir/AsyncIO.cpp.i
 
-CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.cpp -o CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.s
+CMakeFiles/AsyncIO.dir/AsyncIO.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AsyncIO.dir/AsyncIO.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp -o CMakeFiles/AsyncIO.dir/AsyncIO.cpp.s
 
 # Object files for target AsyncIO
 AsyncIO_OBJECTS = \
-"CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o"
+"CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o"
 
 # External object files for target AsyncIO
 AsyncIO_EXTERNAL_OBJECTS =
 
-libAsyncIO.so: CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o
+libAsyncIO.so: CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o
 libAsyncIO.so: CMakeFiles/AsyncIO.dir/build.make
 libAsyncIO.so: CMakeFiles/AsyncIO.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libAsyncIO.so"

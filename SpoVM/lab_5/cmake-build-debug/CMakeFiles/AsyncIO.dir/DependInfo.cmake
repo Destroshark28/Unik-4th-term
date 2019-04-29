@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.cpp" "/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o"
+  "/home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp" "/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug/CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

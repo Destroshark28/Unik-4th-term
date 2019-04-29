@@ -130,10 +130,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.cpp">
-			<Option target="AsyncIO"/>
-		</Unit>
-		<Unit filename="/home/ilyshka/Desktop/Unik/SpoVM/lab_5/asyncio/AsyncReadWrite.h">
+		<Unit filename="/home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp">
 			<Option target="AsyncIO"/>
 		</Unit>
 		<Unit filename="/home/ilyshka/Desktop/Unik/SpoVM/lab_5/main.cpp">

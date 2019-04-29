@@ -1,19 +1,14 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+#pragma ide diagnostic ignored "hicpp-signed-bitwise"
+
 #include <list>
-#include <string>
 #include <iostream>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/shm.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <cstring>
 #include <string.h>
-#include <cstdlib>
-#include <cstdio>
-#include <iostream>
-#include <limits>
-
-using namespace std;
+#include <unistd.h>
 
 namespace constants {
     const int KEY_ID_SEMAPHORE = 234;
@@ -24,13 +19,13 @@ namespace constants {
 }
 
 typedef struct argReaderThread {
-    list<string> *sourceFiles;
+    std::list<std::string> *sourceFiles;
     int shMemoryId;
     int semaphoreId;
 } readerThreadArgs;
 
 typedef struct argWriterThread {
-    string outputFileName;
+    std::string outputFileName;
     int shMemoryId;
     int semaphoreId;
 } writerThreadArgs;
@@ -52,7 +47,7 @@ void deleteSemaphoreSet(int semaphoreId) {
 void *getShMemory(key_t shMemoryId) {
     void *shMemoryAddress = shmat(shMemoryId, nullptr, 0);
     if (shMemoryAddress == nullptr) {
-        cerr << "Error: " << strerror(errno) << endl;
+        std::cerr << "Error: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
     }
     return shMemoryAddress;
@@ -82,12 +77,14 @@ int getShMemoryId() {
     return shmget(key, 1, IPC_CREAT | SHM_R | SHM_W);
 }
 
-string readFromFile(const string &fileName) {
+std::string readFromFile(const std::string &fileName) {
+    sleep(1);
     return "AAA";
 }
 
-void writeToFile(const string &fileName, const string &data) {
-    cout << data << endl;
+void writeToFile(const std::string &fileName, const std::string &data) {
+    sleep(1);
+    std::cout << data << std::endl;
 }
 
 void *readerThreadRoutine(void *arg) {
@@ -141,7 +138,7 @@ void *writerThreadRoutine(void *arg) {
             return nullptr;
         }
 
-        string data = (char *) getShMemory(args->shMemoryId);
+        std::string data = (char *) getShMemory(args->shMemoryId);
         writeToFile(args->outputFileName, data);
 
         semaphoreSet.sem_num = constants::SEMAPHORE_INDEX;
@@ -151,7 +148,7 @@ void *writerThreadRoutine(void *arg) {
     }
 }
 
-int startReaderThread(pthread_t &thread, list<string> &sourceFiles, int &shMemoryId, int &semaphoreId) {
+int startReaderThread(pthread_t &thread, std::list<std::string> &sourceFiles, int &shMemoryId, int &semaphoreId) {
     pthread_attr_t attr;
     pthread_attr_init(&attr);
 
@@ -163,7 +160,7 @@ int startReaderThread(pthread_t &thread, list<string> &sourceFiles, int &shMemor
     return pthread_create(&thread, &attr, readerThreadRoutine, args);
 }
 
-int startWriterThread(pthread_t &thread, string &outputFileName, int &shMemoryId, int &semaphoreId) {
+int startWriterThread(pthread_t &thread, std::string &outputFileName, int &shMemoryId, int &semaphoreId) {
     pthread_attr_t attr;
     pthread_attr_init(&attr);
 
@@ -175,7 +172,7 @@ int startWriterThread(pthread_t &thread, string &outputFileName, int &shMemoryId
     return pthread_create(&thread, &attr, writerThreadRoutine, args);
 }
 
-extern "C" void concatFiles(list<string> &sourceFiles, string &outputFileName) {
+extern "C" void concatFiles(std::list<std::string> &sourceFiles, std::string &outputFileName) {
     struct shmid_ds shMemoryStruct{};
 
     int semaphoreId = getSemaphoreId();
@@ -184,12 +181,12 @@ extern "C" void concatFiles(list<string> &sourceFiles, string &outputFileName) {
     void *threadExitStatus;
 
     if (semaphoreId == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
+        std::cerr << "Error: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
     }
 
     if (shMemoryId == -1) {
-        cerr << "Error: " << strerror(errno) << endl;
+        std::cerr << "Error: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -209,3 +206,5 @@ extern "C" void concatFiles(list<string> &sourceFiles, string &outputFileName) {
     shmdt(getShMemory(shMemoryId));
     shmctl(shMemoryId, IPC_RMID, &shMemoryStruct);
 }
+
+#pragma clang diagnostic pop

@@ -136,32 +136,32 @@ Main/fast:
 	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/build
 .PHONY : Main/fast
 
-asyncio/AsyncReadWrite.o: asyncio/AsyncReadWrite.cpp.o
+AsyncIO.o: AsyncIO.cpp.o
 
-.PHONY : asyncio/AsyncReadWrite.o
+.PHONY : AsyncIO.o
 
 # target to build an object file
-asyncio/AsyncReadWrite.cpp.o:
-	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.o
-.PHONY : asyncio/AsyncReadWrite.cpp.o
+AsyncIO.cpp.o:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/AsyncIO.cpp.o
+.PHONY : AsyncIO.cpp.o
 
-asyncio/AsyncReadWrite.i: asyncio/AsyncReadWrite.cpp.i
+AsyncIO.i: AsyncIO.cpp.i
 
-.PHONY : asyncio/AsyncReadWrite.i
+.PHONY : AsyncIO.i
 
 # target to preprocess a source file
-asyncio/AsyncReadWrite.cpp.i:
-	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.i
-.PHONY : asyncio/AsyncReadWrite.cpp.i
+AsyncIO.cpp.i:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/AsyncIO.cpp.i
+.PHONY : AsyncIO.cpp.i
 
-asyncio/AsyncReadWrite.s: asyncio/AsyncReadWrite.cpp.s
+AsyncIO.s: AsyncIO.cpp.s
 
-.PHONY : asyncio/AsyncReadWrite.s
+.PHONY : AsyncIO.s
 
 # target to generate assembly for a file
-asyncio/AsyncReadWrite.cpp.s:
-	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/asyncio/AsyncReadWrite.cpp.s
-.PHONY : asyncio/AsyncReadWrite.cpp.s
+AsyncIO.cpp.s:
+	$(MAKE) -f CMakeFiles/AsyncIO.dir/build.make CMakeFiles/AsyncIO.dir/AsyncIO.cpp.s
+.PHONY : AsyncIO.cpp.s
 
 main.o: main.cpp.o
 
@@ -200,9 +200,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... AsyncIO"
 	@echo "... Main"
-	@echo "... asyncio/AsyncReadWrite.o"
-	@echo "... asyncio/AsyncReadWrite.i"
-	@echo "... asyncio/AsyncReadWrite.s"
+	@echo "... AsyncIO.o"
+	@echo "... AsyncIO.i"
+	@echo "... AsyncIO.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

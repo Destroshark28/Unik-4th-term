@@ -3,7 +3,7 @@ PROJECT(lab_5)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 SET(CMAKE_CXX_STANDARD 14)
 
-SET(AsyncIOlibSrc asyncio/AsyncReadWrite.cpp)
+SET(AsyncIOlibSrc AsyncIO.cpp)
 ADD_LIBRARY(AsyncIO SHARED ${AsyncIOlibSrc})
 TARGET_LINK_LIBRARIES(AsyncIO pthread rt)
 
