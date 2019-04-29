@@ -7,7 +7,7 @@ using ConcatFunction = void (*)(std::list<std::string> sourceFiles, std::string 
 
 static const char *ASYNC_IO_LIB_NAME = "libAsyncIO.so";
 static const char *ASYNC_IO_FUNCTION_NAME = "concatFiles";
-static const char *OUTPUT_FILE_NAME = "output.txt";
+static const char *OUTPUT_FILE_NAME = "files/output.txt";
 
 int main() {
     void *soHandle = nullptr;
@@ -26,11 +26,9 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    fileNames.emplace_back("readFiles/first.txt");
-    fileNames.emplace_back("readFiles/second.txt");
-    fileNames.emplace_back("readFiles/third.txt");
-    fileNames.emplace_back("readFiles/fourth.txt");
-    fileNames.emplace_back("readFiles/fifth.txt");
+    fileNames.emplace_back("files/first.txt");
+    fileNames.emplace_back("files/second.txt");
+    fileNames.emplace_back("files/third.txt");
 
     std::cout << "Start processing" << std::endl;
     concatFunction(fileNames, OUTPUT_FILE_NAME);
