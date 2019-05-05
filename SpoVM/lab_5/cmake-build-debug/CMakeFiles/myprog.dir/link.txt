@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/myprog.dir/main.cpp.o  -o myprog -Wl,-rpath,/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug libasyncIOlib.so -ldl 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/main.dir/main.cpp.o  -o main -Wl,-rpath,/home/ilyshka/Desktop/Unik/SpoVM/lab_5/cmake-build-debug libasyncIO.so -ldl 

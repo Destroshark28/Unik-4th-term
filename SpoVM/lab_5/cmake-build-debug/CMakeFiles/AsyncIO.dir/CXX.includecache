@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilyshka/Desktop/Unik/SpoVM/lab_5/AsyncIO.cpp
+list
+-
+iostream
+-
+sys/ipc.h
+-
+sys/sem.h
+-
+sys/shm.h
+-
+string.h
+-
+unistd.h
+-
+aio.h
+-
+fcntl.h
+-
+

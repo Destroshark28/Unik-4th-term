@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libasyncIOlib.so -o libasyncIOlib.so CMakeFiles/asyncIOlib.dir/asyncio/AsyncReadWrite.cpp.o 
