@@ -26,7 +26,7 @@ void FileSystem::debug(Disk *disk) {
     printf("    %u inodes\n"         , block.Super.Inodes);
 
     // Read Inode blocks
-    Block inodeBlock;
+    Block inodeBlock{};
     uint32_t numInodes = sizeof(Block)/sizeof(Inode);
     for (uint32_t i=0; i < block.Super.InodeBlocks; i++){
         disk->read(i+1, inodeBlock.Data);
