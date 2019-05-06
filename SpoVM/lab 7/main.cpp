@@ -11,6 +11,8 @@
 
 #define equals(a, b) (strcmp((a), (b)) == 0)
 
+bool commandOpen(Disk &disk, char *arg1);
+bool commandCreate(Disk &disk, char *arg1, char *arg2);
 void commandDebug(Disk &disk, int args);
 void commandFormat(Disk &disk, int args);
 void commandMount(Disk &disk, FileSystem &fs, int args);
@@ -25,33 +27,46 @@ bool copyOut(FileSystem &fs, size_t iNodeNumber, const char *path);
 bool copyIn(FileSystem &fs, const char *path, size_t iNodeNumber);
 
 int main(int argc, char *argv[]) {
+    char line[BUFSIZ], cmd[BUFSIZ], arg1[BUFSIZ], arg2[BUFSIZ];
+
     Disk disk;
     FileSystem fs;
 
-    if (argc != 3) {
-        printf("Usage: %s diskFile nBlocks\n", argv[0]);
-        return EXIT_FAILURE;
-    }
+    while (true) {
+        printf("Usage: \n");
+        printf("\topen diskFile\n");
+        printf("\tcreate diskFile size\n");
+        printf("> ");
 
-    try {
-        disk.open(argv[1], strtol(argv[2], nullptr, 0));
-    } catch (std::runtime_error &e) {
-        printf("Unable to open disk %s: %s\n", argv[1], e.what());
-        return EXIT_FAILURE;
+        if (fgets(line, BUFSIZ, stdin) == nullptr) {
+            break;
+        }
+        int args = sscanf(line, "%s %s %s", cmd, arg1, arg2);
+        if (args == 0) continue;
+
+        if (equals(cmd, "open")) {
+            if (!commandOpen(disk, arg1)) {
+                printf("Unable to open disk %s: %s\n", argv[1], strerror(errno));
+                return EXIT_FAILURE;
+            }
+            break;
+        } else if (equals(cmd, "create")) {
+            if (!commandCreate(disk, arg1, arg2)) {
+                printf("Unable to create disk %s: %s\n", argv[1], strerror(errno));
+                return EXIT_FAILURE;
+            }
+            break;
+        }
     }
 
     while (true) {
-        char line[BUFSIZ], cmd[BUFSIZ], arg1[BUFSIZ], arg2[BUFSIZ];
-
         printf("filesystem> ");
 
         if (fgets(line, BUFSIZ, stdin) == nullptr) {
             break;
         }
-
         int args = sscanf(line, "%s %s %s", cmd, arg1, arg2);
         if (args == 0) continue;
-
 
         if (equals(cmd, "debug")) {
             commandDebug(disk, args);
@@ -80,6 +95,25 @@ int main(int argc, char *argv[]) {
     }
 
     return EXIT_SUCCESS;
+}
+
+
+bool commandOpen(Disk &disk, char *arg1) {
+    try {
+        disk.open(arg1);
+    } catch (std::runtime_error &e) {
+        return false;
+    }
+    return true;
+}
+
+bool commandCreate(Disk &disk, char *arg1, char *arg2) {
+    try {
+        disk.create(arg1, strtol(arg2, nullptr, 0));
+    } catch (std::runtime_error &e) {
+        return false;
+    }
+    return true;
 }
 
 void commandDebug(Disk &disk, int args) {

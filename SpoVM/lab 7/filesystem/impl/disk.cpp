@@ -6,86 +6,65 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
-void Disk::open(const char *path, size_t nblocks) {
-    FileDescriptor = ::open(path, O_RDWR|O_CREAT, 0600);
-    if (FileDescriptor < 0) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to open %s: %s", path, strerror(errno));
-    	throw std::runtime_error(what);
-    }
 
-    if (ftruncate(FileDescriptor, nblocks*BLOCK_SIZE) < 0) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to open %s: %s", path, strerror(errno));
-    	throw std::runtime_error(what);
-    }
-
-    Blocks = nblocks;
-    Reads  = 0;
-    Writes = 0;
-}
+Disk::Disk() : fileDescriptor(0), totalBlocksNumber(0), isMounted(false) {}
 
 Disk::~Disk() {
-    if (FileDescriptor > 0) {
-    	printf("%lu disk block reads\n", Reads);
-    	printf("%lu disk block writes\n", Writes);
-    	close(FileDescriptor);
-    	FileDescriptor = 0;
+    if (fileDescriptor > 0) {
+        close(fileDescriptor);
+        fileDescriptor = 0;
+        unMount();
     }
 }
 
-void Disk::sanity_check(int blocknum, char *data) {
-    char what[BUFSIZ];
-
-    if (blocknum < 0) {
-    	snprintf(what, BUFSIZ, "blocknum (%d) is negative!", blocknum);
-    	throw std::invalid_argument(what);
-    }
-
-    if (blocknum >= (int)Blocks) {
-    	snprintf(what, BUFSIZ, "blocknum (%d) is too big!", blocknum);
-    	throw std::invalid_argument(what);
-    }
-
-    if (data == NULL) {
-    	snprintf(what, BUFSIZ, "null data pointer!");
-    	throw std::invalid_argument(what);
-    }
+void Disk::open(const char *path) {
+    fileDescriptor = ::open(path, O_RDWR);
+    if (fileDescriptor < 0) throw std::runtime_error(strerror(errno));
+    struct stat statBuf{};
+    ::stat(path, &statBuf);
+    if (ftruncate(fileDescriptor, statBuf.st_size) < 0) throw std::runtime_error(strerror(errno));
+    Disk::totalBlocksNumber = statBuf.st_size / BLOCK_SIZE;
 }
 
-void Disk::read(int blocknum, char *data) {
-    sanity_check(blocknum, data);
-
-    if (lseek(FileDescriptor, blocknum*BLOCK_SIZE, SEEK_SET) < 0) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to lseek %d: %s", blocknum, strerror(errno));
-    	throw std::runtime_error(what);
-    }
-
-    if (::read(FileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to read %d: %s", blocknum, strerror(errno));
-    	throw std::runtime_error(what);
-    }
-
-    Reads++;
+void Disk::create(const char *path, size_t totalBlocks) {
+    fileDescriptor = ::open(path, O_RDWR | O_CREAT);
+    if (fileDescriptor < 0) throw std::runtime_error(strerror(errno));
+    if (ftruncate(fileDescriptor, totalBlocks * BLOCK_SIZE) < 0) throw std::runtime_error(strerror(errno));
+    Disk::totalBlocksNumber = totalBlocks;
 }
 
-void Disk::write(int blocknum, char *data) {
-    sanity_check(blocknum, data);
+size_t Disk::size() const {
+    return totalBlocksNumber;
+}
 
-    if (lseek(FileDescriptor, blocknum*BLOCK_SIZE, SEEK_SET) < 0) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to lseek %d: %s", blocknum, strerror(errno));
-    	throw std::runtime_error(what);
-    }
+void Disk::mount() {
+    isMounted = true;
+}
 
-    if (::write(FileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE) {
-    	char what[BUFSIZ];
-    	snprintf(what, BUFSIZ, "Unable to write %d: %s", blocknum, strerror(errno));
-    	throw std::runtime_error(what);
-    }
+void Disk::unMount() {
+    isMounted = false;
+}
 
-    Writes++;
+bool Disk::isMount() const {
+    return isMounted;
+}
+
+void Disk::read(size_t blockNumber, char *data) {
+    checkArgs(blockNumber, data);
+    if (lseek(fileDescriptor, blockNumber * BLOCK_SIZE, SEEK_SET) < 0)throw std::runtime_error(strerror(errno));
+    if (::read(fileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE) throw std::runtime_error(strerror(errno));
+}
+
+void Disk::write(size_t blockNumber, const char *data) {
+    checkArgs(blockNumber, data);
+    if (lseek(fileDescriptor, blockNumber * BLOCK_SIZE, SEEK_SET) < 0) throw std::runtime_error(strerror(errno));
+    if (::write(fileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE)throw std::runtime_error(strerror(errno));
+}
+
+void Disk::checkArgs(size_t blockNumber, const char *data) {
+    if (blockNumber < 0) throw std::invalid_argument("blockNumber < 0");
+    if (blockNumber >= totalBlocksNumber) throw std::invalid_argument("blockNumber > totalBlocksNumber");
+    if (data == nullptr) throw std::invalid_argument("null pointer data");
 }
