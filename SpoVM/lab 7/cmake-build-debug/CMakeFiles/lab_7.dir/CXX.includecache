@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/filesystem/disk.h
+stdlib.h
+-
+
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/filesystem/fs.h
+disk.h
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/filesystem/disk.h
+stdint.h
+-
+
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/main.cpp
+filesystem/disk.h
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/filesystem/disk.h
+filesystem/fs.h
+/home/ilyshka/Desktop/Unik/SpoVM/lab 7/filesystem/fs.h
+sstream
+-
+string
+-
+stdexcept
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
