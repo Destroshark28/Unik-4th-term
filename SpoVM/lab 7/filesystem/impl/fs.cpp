@@ -317,7 +317,6 @@ size_t FileSystem::allocFreeBlock() {
 }
 
 ssize_t FileSystem::write(size_t iNumber, char *data, size_t length, size_t offset) {
-
     if (iNumber >= this->iNodes) {
         printf("First check failed\n");
         return -1;
@@ -329,8 +328,7 @@ ssize_t FileSystem::write(size_t iNumber, char *data, size_t length, size_t offs
         return -1;
     }
     size_t readIndex = length;
-    size_t blockSizeVar = Disk::BLOCK_SIZE;
-
+    size_t blockSize = Disk::BLOCK_SIZE;
 
     uint32_t startBlock = offset / Disk::BLOCK_SIZE;
     uint32_t startByte = offset % Disk::BLOCK_SIZE;
@@ -347,9 +345,8 @@ ssize_t FileSystem::write(size_t iNumber, char *data, size_t length, size_t offs
             }
         }
 
-
         disk->read(loadedINode.direct[startBlock], readFromBlock.data);
-        uint32_t dataSize = std::min(startByte + readIndex, blockSizeVar);
+        uint32_t dataSize = std::min(startByte + readIndex, blockSize);
         uint32_t incrementer = startByte;
 
         while (incrementer < dataSize) {
@@ -387,8 +384,8 @@ ssize_t FileSystem::write(size_t iNumber, char *data, size_t length, size_t offs
                 }
             }
             disk->read(indirectBlock.pointers[startBlock], readFromBlock.data);
-            blockSizeVar = Disk::BLOCK_SIZE;
-            uint32_t dataSize = std::min(startByte + readIndex, blockSizeVar);
+            blockSize = Disk::BLOCK_SIZE;
+            uint32_t dataSize = std::min(startByte + readIndex, blockSize);
             uint32_t incrementer = startByte;
             while (incrementer < dataSize) {
                 readFromBlock.data[incrementer] = dataString[dataIndex];
@@ -411,7 +408,6 @@ ssize_t FileSystem::write(size_t iNumber, char *data, size_t length, size_t offs
     }
 
     return dataIndex;
-
 }
 
 bool FileSystem::loadINode(size_t iNumber, INode *node) {
@@ -422,27 +418,9 @@ bool FileSystem::loadINode(size_t iNumber, INode *node) {
 }
 
 bool FileSystem::saveINode(size_t iNumber, INode *node) {
-
     Block nodeBlock{};
     this->disk->read(iNumber / INODES_PER_BLOCK + 1, nodeBlock.data);
-
     nodeBlock.iNodes[iNumber % INODES_PER_BLOCK] = *node;
-
-    uint32_t blockCounter = 0;
-    for (unsigned int i : node->direct) {
-        if (i) {
-            blockCounter++;
-        }
-    }
-    Block indirectBlock{};
-    this->disk->read(node->indirect, indirectBlock.data);
-    for (unsigned int pointer : indirectBlock.pointers) {
-        if (pointer) {
-            blockCounter++;
-        }
-    }
-
     this->disk->write(iNumber / INODES_PER_BLOCK + 1, nodeBlock.data);
-
     return node->valid != 0;
 }
