@@ -53,14 +53,14 @@ bool Disk::isMount() const {
 
 void Disk::read(size_t blockNumber, char *data) {
     checkArgs(blockNumber, data);
-    if (lseek(fileDescriptor, blockNumber * BLOCK_SIZE, SEEK_SET) < 0)throw std::runtime_error(strerror(errno));
+    if (lseek(fileDescriptor, blockNumber * BLOCK_SIZE, SEEK_SET) < 0) throw std::runtime_error(strerror(errno));
     if (::read(fileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE) throw std::runtime_error(strerror(errno));
 }
 
 void Disk::write(size_t blockNumber, const char *data) {
     checkArgs(blockNumber, data);
     if (lseek(fileDescriptor, blockNumber * BLOCK_SIZE, SEEK_SET) < 0) throw std::runtime_error(strerror(errno));
-    if (::write(fileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE)throw std::runtime_error(strerror(errno));
+    if (::write(fileDescriptor, data, BLOCK_SIZE) != BLOCK_SIZE) throw std::runtime_error(strerror(errno));
 }
 
 void Disk::checkArgs(size_t blockNumber, const char *data) {

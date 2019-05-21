@@ -88,7 +88,6 @@ bool FileSystem::format(Disk *disk) {
     return true;
 }
 
-
 bool FileSystem::mount(Disk *diskToMount) {
 
     if (this->disk) {
@@ -115,7 +114,6 @@ bool FileSystem::mount(Disk *diskToMount) {
     if (superBlock.super.iNodes != INODES_PER_BLOCK * superBlock.super.iNodeBlocks) {
         return false;
     }
-
 
     this->disk = diskToMount;
     diskToMount->mount();
